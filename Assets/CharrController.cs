@@ -78,7 +78,7 @@ public class CharrController : MonoBehaviour
     
     public void JumpStart()
     {
-        rb.velocity += new Vector3(0.0f, jumpForce, 0.0f) + rb.velocity * 1.5f;
+        rb.velocity += new Vector3(0.0f, jumpForce, 0.0f) + rb.velocity * 2.0f;
         isJumping = false;
         animator.SetBool("IsFalling", true);
         animator.SetBool("IsJump", false);
