@@ -23,7 +23,7 @@ public class Jump : MonoBehaviour
             isJumping = true;
         }
 
-        animator.SetBool("IsJump", !IsGrounded() || isJumping);
+        animator.SetBool("IsJump", isJumping);
     }
 
     public void JumpStart()
@@ -39,7 +39,10 @@ public class Jump : MonoBehaviour
     bool IsGrounded()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.parent.position, -Vector3.up, out hit, groundCheckDistance, groundLayer))
+        float radius = 0.3f;  // This radius should be less than the half size of your character to avoid collision with walls
+
+        // For SphereCast, you need to define a starting point and radius, along with direction, distance and layer mask
+        if (Physics.SphereCast(transform.parent.position + Vector3.up * 0.5f, radius, -Vector3.up, out hit, groundCheckDistance, groundLayer))
         {
             return true;
         }
