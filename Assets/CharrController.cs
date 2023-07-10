@@ -16,6 +16,7 @@ public class CharrController : MonoBehaviour
     private bool groundCheckStart = false;
     public float speed = 3.0f;
     public float rotationSpeed = 700.0f;
+    private bool isAttacking = false;
 
     private void Start()
     {
@@ -26,12 +27,18 @@ public class CharrController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Jump") && IsGrounded() && !jumpInProcess)
+        if (Input.GetButtonDown("Jump") && IsGrounded() && !jumpInProcess && !isAttacking)
         {
             groundCheckStart = false;
             isJumping = true;
             jumpInProcess = true;
             animator.SetTrigger("IsJump");
+        }
+
+        if (Input.GetMouseButtonDown(0) && !isAttacking)
+        {
+            isAttacking = true;
+            animator.SetTrigger("isAttack");
         }
 
         if (IsGrounded() && groundCheckStart)
@@ -50,7 +57,7 @@ public class CharrController : MonoBehaviour
         direction = transform.TransformDirection(direction);
         
         // Move the character
-        if (direction != Vector3.zero && !isJumping && !jumpInProcess)
+        if (direction != Vector3.zero && !isJumping && !jumpInProcess && !isAttacking)
         {
             rb.velocity = new Vector3(direction.x * speed, rb.velocity.y, direction.z * speed);
         }
@@ -71,7 +78,7 @@ public class CharrController : MonoBehaviour
     
     public void JumpStart()
     {
-        rb.velocity += new Vector3(0.0f, jumpForce, 0.0f) + rb.velocity;
+        rb.velocity += new Vector3(0.0f, jumpForce, 0.0f) + rb.velocity * 1.5f;
         isJumping = false;
         animator.SetBool("IsFalling", true);
         animator.SetBool("IsJump", false);
@@ -99,5 +106,10 @@ public class CharrController : MonoBehaviour
             if (Vector3.Distance(hit.point, transform.position) < groundCheckDistance)  return true;
         }
         return false;
+    }
+
+    public void AttackEnd()
+    {
+        isAttacking = false;
     }
 }
