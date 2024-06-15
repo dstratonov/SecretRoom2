@@ -39,7 +39,7 @@ namespace Game.States
         private bool IsGrounded()
         {
             RaycastHit hit;
-            float dist = 0.5f;
+            float dist = 0.4f;
             float radius = 0.3f;  
             
             if (Physics.SphereCast(Character.transform.position + Vector3.up * dist, radius, -Vector3.up, out hit, dist, Character.GroundMask))
