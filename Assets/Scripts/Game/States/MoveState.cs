@@ -26,8 +26,9 @@ namespace Game.States
             _inputActions.CharacterInputs.Idle.performed -= IdlePerformed;
         }
 
-        public MoveState(StateMachine stateMachine, Animator animator) : base(stateMachine, animator)
+        public MoveState(StateMachine stateMachine, PlayerCharacter character) : base(stateMachine, character)
         {
+            
         }
     }
 }

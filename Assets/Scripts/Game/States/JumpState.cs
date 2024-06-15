@@ -1,0 +1,46 @@
+﻿using UnityEngine;
+
+namespace Game.States
+{
+    public class JumpState : State
+    {
+        protected override string AnimKey => "jump";
+
+        private bool _isJumping;
+     
+        public JumpState(StateMachine stateMachine, PlayerCharacter character) : base(stateMachine, character) { }
+
+        protected override void OnUpdate()
+        {
+            base.OnUpdate();
+
+            if (IsGrounded() && _isJumping)
+            {
+                _isJumping = false;
+                StateMachine.SetState<IdleState>();
+            }
+        }
+
+        protected override void OnAnimationFinishTrigger()
+        {
+            base.OnAnimationFinishTrigger();
+            
+            Character.Rigidbody.velocity += new Vector3(0.0f, 5, 0.0f) + Character.Rigidbody.velocity * 2.0f;
+            _isJumping = true;
+        }
+        
+        private bool IsGrounded()
+        {
+            RaycastHit hit;
+            float dist = 1;
+            float radius = 0.3f;  
+            
+            if (Physics.SphereCast(Character.transform.position + Vector3.up * dist, radius, -Vector3.up, out hit, dist, Character.GroundMask))
+            {
+                if (Vector3.Distance(hit.point, Character.transform.position) < dist)  return true;
+            }
+            
+            return false;
+        }
+    }
+}

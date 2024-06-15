@@ -44,6 +44,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""f5b0d036-ebe1-4999-9c08-a2fc6fcf5818"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -68,6 +77,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Idle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4a13b5d6-c697-4bb8-8803-83e8221b0ed2"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -84,6 +104,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_CharacterInputs = asset.FindActionMap("CharacterInputs", throwIfNotFound: true);
         m_CharacterInputs_Move = m_CharacterInputs.FindAction("Move", throwIfNotFound: true);
         m_CharacterInputs_Idle = m_CharacterInputs.FindAction("Idle", throwIfNotFound: true);
+        m_CharacterInputs_Jump = m_CharacterInputs.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -147,12 +168,14 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private List<ICharacterInputsActions> m_CharacterInputsActionsCallbackInterfaces = new List<ICharacterInputsActions>();
     private readonly InputAction m_CharacterInputs_Move;
     private readonly InputAction m_CharacterInputs_Idle;
+    private readonly InputAction m_CharacterInputs_Jump;
     public struct CharacterInputsActions
     {
         private @InputActions m_Wrapper;
         public CharacterInputsActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_CharacterInputs_Move;
         public InputAction @Idle => m_Wrapper.m_CharacterInputs_Idle;
+        public InputAction @Jump => m_Wrapper.m_CharacterInputs_Jump;
         public InputActionMap Get() { return m_Wrapper.m_CharacterInputs; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -168,6 +191,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Idle.started += instance.OnIdle;
             @Idle.performed += instance.OnIdle;
             @Idle.canceled += instance.OnIdle;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
         }
 
         private void UnregisterCallbacks(ICharacterInputsActions instance)
@@ -178,6 +204,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Idle.started -= instance.OnIdle;
             @Idle.performed -= instance.OnIdle;
             @Idle.canceled -= instance.OnIdle;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
         }
 
         public void RemoveCallbacks(ICharacterInputsActions instance)
@@ -208,5 +237,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnIdle(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }

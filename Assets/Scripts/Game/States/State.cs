@@ -1,58 +1,48 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem;
-using Zenject;
-
-namespace Game.States
+﻿namespace Game.States
 {
     public abstract class State
     {
-        protected abstract string AnimKey { get; }
-        
-        private readonly StateMachine _stateMachine;
-        private readonly Animator _animator;
-
         protected InputActions _inputActions = new();
-        
-        protected StateMachine StateMachine => _stateMachine;
+        private readonly PlayerCharacter _character;
 
-        protected State(StateMachine stateMachine, Animator animator)
+        protected abstract string AnimKey { get; }
+
+        protected StateMachine StateMachine { get; }
+        protected PlayerCharacter Character => _character;
+
+        protected State(StateMachine stateMachine, PlayerCharacter character)
         {
-            _stateMachine = stateMachine;
-            _animator = animator;
+            StateMachine = stateMachine;
+            _character = character;
         }
-        
+
+        public void AnimationFinishTrigger()
+        {
+            OnAnimationFinishTrigger();
+        }
+
         public void Enter()
         {
             _inputActions.CharacterInputs.Enable();
-            _animator.SetBool(AnimKey, true);
+            _character.Animator.SetBool(AnimKey, true);
             OnEnter();
         }
 
         public void Exit()
         {
             _inputActions.CharacterInputs.Disable();
-            _animator.SetBool(AnimKey, false);
+            _character.Animator.SetBool(AnimKey, false);
             OnExit();
         }
 
-        public void Update()
-        {
-            
-        }
+        public void Update() { }
 
-        protected virtual void OnEnter()
-        {
-            
-        }
+        protected virtual void OnAnimationFinishTrigger() { }
 
-        protected virtual void OnExit()
-        {
-            
-        }
-        
-        protected virtual void OnUpdate()
-        {
-            
-        }
+        protected virtual void OnEnter() { }
+
+        protected virtual void OnExit() { }
+
+        protected virtual void OnUpdate() { }
     }
 }

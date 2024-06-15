@@ -5,15 +5,17 @@ namespace Game.States
 {
     public class StateMachine
     {
+        public State CurrentState => _currentState;
+        
         private readonly IInstantiator _instantiator;
-        private readonly Animator _animator;
+        private readonly PlayerCharacter _character;
 
         private State _currentState;
 
-        public StateMachine(IInstantiator instantiator, Animator animator)
+        public StateMachine(IInstantiator instantiator, PlayerCharacter character)
         {
             _instantiator = instantiator;
-            _animator = animator;
+            _character = character;
         }
         
         public void SetState<TState>() where TState : State
@@ -28,7 +30,7 @@ namespace Game.States
 
         private TState CreateState<TState>() where TState : State
         {
-            return _instantiator.Instantiate<TState>(new object[] { this, _animator });
+            return _instantiator.Instantiate<TState>(new object[] { this, _character });
         }
 
         public void Update()
