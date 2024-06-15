@@ -35,7 +35,10 @@
             OnExit();
         }
 
-        public void Update() { }
+        public void Update() 
+        {
+            OnUpdate();
+        }
 
         protected virtual void OnAnimationFinishTrigger() { }
 

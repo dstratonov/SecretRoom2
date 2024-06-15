@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 2158.2952, g: 2260.5393, b: 3278.3247, a: 1}
+  m_IndirectSpecularColor: {r: 2158.9631, g: 2262.471, b: 3284.9343, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -520,6 +520,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8539975722594860317, guid: 435d83305e27b4d2cbd1720ad4d9661a,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -590,7 +595,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1090015257}
   serializedVersion: 4
-  m_Mass: 60
+  m_Mass: 200
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -629,9 +634,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.19633505
-  m_Height: 1.8215721
+  m_Height: 1.9018186
   m_Direction: 1
-  m_Center: {x: 0.0033006966, y: 0.89758325, z: 0}
+  m_Center: {x: 0, y: 0.8561016, z: 0}
 --- !u!1 &1455342551
 GameObject:
   m_ObjectHideFlags: 0
