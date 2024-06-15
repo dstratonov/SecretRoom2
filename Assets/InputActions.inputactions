@@ -1,0 +1,60 @@
+{
+    "name": "InputActions",
+    "maps": [
+        {
+            "name": "CharacterInputs",
+            "id": "03b066f8-a97f-4229-a8dc-c6c4dbf09112",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Button",
+                    "id": "c7f818ec-f44a-4ae6-bce4-b4859cada741",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Idle",
+                    "type": "Button",
+                    "id": "ccc3f45a-a0b7-456d-ac1b-6ba2aa9a80b5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4564f857-3f58-48ed-b320-08fd47485e5d",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PlayerInputs",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "304d5ae1-c5f5-4efb-868e-bbc0a58f01e0",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PlayerInputs",
+                    "action": "Idle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "PlayerInputs",
+            "bindingGroup": "PlayerInputs",
+            "devices": []
+        }
+    ]
+}
