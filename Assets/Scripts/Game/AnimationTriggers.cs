@@ -1,18 +1,42 @@
-﻿using Game.States;
+﻿using System;
+using System.Collections.Generic;
+using Game.States;
 using UnityEngine;
 
 namespace Game
 {
     public class AnimationTriggers : MonoBehaviour
     {
-        //todo change to abstract class
-        private PlayerCharacter _playerCharacter;
+        private Dictionary<string, Action> _actionSubscribers = new();
 
-        private void Awake()
+        public void Trigger(string key)
         {
-            _playerCharacter = GetComponent<PlayerCharacter>();
+            if (_actionSubscribers.TryGetValue(key, out Action actions))
+            {
+                actions?.Invoke();
+            }
         }
 
-        private void AnimationFinishTrigger() => _playerCharacter.AnimationFinishTrigger();
+        public void Subscribe(string key, Action action)
+        {
+            _actionSubscribers.TryAdd(key, null);
+            _actionSubscribers[key] += action;
+        }
+
+        public void Unsubscribe(string key, Action action)
+        {
+            if (_actionSubscribers.ContainsKey(key))
+            {
+                _actionSubscribers[key] -= action;
+            }
+        }
+
+        public void Clear(string key)
+        {
+            if (_actionSubscribers.ContainsKey(key))
+            {
+                _actionSubscribers[key] = null;
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine.InputSystem;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Game.States
 {
@@ -12,7 +13,6 @@ namespace Game.States
         {
             base.OnEnter();
 
-            _inputActions.CharacterInputs.Move.performed += MoveOnPerformed;
             _inputActions.CharacterInputs.Jump.performed += JumpOnPerformed;
         }
 
@@ -20,7 +20,6 @@ namespace Game.States
         {
             base.OnExit();
 
-            _inputActions.CharacterInputs.Move.performed -= MoveOnPerformed;
             _inputActions.CharacterInputs.Jump.performed -= JumpOnPerformed;
         }
 
@@ -29,9 +28,19 @@ namespace Game.States
             StateMachine.SetState<JumpState>();
         }
 
-        private void MoveOnPerformed(InputAction.CallbackContext context)
+        protected override void OnUpdate()
         {
-            StateMachine.SetState<MoveState>();
+            base.OnUpdate();
+            
+            var x = _inputActions.CharacterInputs.Horizontal.ReadValue<float>();
+            var y = _inputActions.CharacterInputs.Vertical.ReadValue<float>();
+
+            var direction = new Vector2(x, y);
+
+            if (direction.magnitude != 0)
+            {
+                StateMachine.SetState<MoveState>();
+            }
         }
     }
 }

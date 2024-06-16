@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 2158.9631, g: 2262.471, b: 3284.9343, a: 1}
+  m_IndirectSpecularColor: {r: 2159.554, g: 2263.305, b: 3286.313, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -564,11 +564,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5adf064288b435aa3d9a3737bd496c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animationTriggers: {fileID: 1090015260}
   _groundMask:
     serializedVersion: 2
     m_Bits: 64
   _animator: {fileID: 1090015259}
-  _rigidbody: {fileID: 1090015262}
+  _rigidBody: {fileID: 1090015262}
 --- !u!95 &1090015259 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 8539975722594860317, guid: 435d83305e27b4d2cbd1720ad4d9661a,
@@ -611,9 +612,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &1090015263
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -634,9 +635,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.19633505
-  m_Height: 1.9018186
+  m_Height: 1.8326846
   m_Direction: 1
-  m_Center: {x: 0, y: 0.8561016, z: 0}
+  m_Center: {x: 0, y: 0.8906686, z: 0}
 --- !u!1 &1455342551
 GameObject:
   m_ObjectHideFlags: 0

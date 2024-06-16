@@ -16,11 +16,6 @@
             _character = character;
         }
 
-        public void AnimationFinishTrigger()
-        {
-            OnAnimationFinishTrigger();
-        }
-
         public void Enter()
         {
             _inputActions.CharacterInputs.Enable();
@@ -40,12 +35,17 @@
             OnUpdate();
         }
 
-        protected virtual void OnAnimationFinishTrigger() { }
-
+        public void FixedUpdate()
+        {
+            OnFixedUpdate();
+        }
+        
         protected virtual void OnEnter() { }
 
         protected virtual void OnExit() { }
 
         protected virtual void OnUpdate() { }
+        
+        protected virtual void OnFixedUpdate() { }
     }
 }

@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using Zenject;
+﻿using Zenject;
 
 namespace Game.States
 {
@@ -36,6 +35,11 @@ namespace Game.States
         public void Update()
         {
             _currentState?.Update();
+        }
+
+        public void FixedUpdate()
+        {
+            _currentState?.FixedUpdate();
         }
     }
 }
