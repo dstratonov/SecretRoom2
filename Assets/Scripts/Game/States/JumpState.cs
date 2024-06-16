@@ -19,7 +19,7 @@ namespace Game.States
             // Debug.Log(IsGrounded());
             // Debug.Log("State info");
 
-            if (IsGrounded() && _isJumping)
+            if (IsGrounded() && _isJumping && Character.Rigidbody.velocity.y < 0.0f)
             {
                 Debug.Log("Off jump");
                 _isJumping = false;
@@ -32,7 +32,7 @@ namespace Game.States
         {
             base.OnAnimationFinishTrigger();
             Debug.Log("FinishTrigger");
-            Character.Rigidbody.velocity += new Vector3(0.0f, 3.0f, 0.0f) + Character.Rigidbody.velocity * 2.0f;
+            Character.Rigidbody.velocity += new Vector3(0.0f, 2.5f, 0.0f) + Character.Rigidbody.velocity * 2.0f;
             _isJumping = true;
         }
         
