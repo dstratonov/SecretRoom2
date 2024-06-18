@@ -6,7 +6,7 @@ namespace Game.Battle.Models
     [Serializable]
     public class TeamModel
     {
-        private readonly List<UnitModel> _units = new();
+        private readonly List<BattleUnitModel> _units = new();
         
         public Team Team { get; }
 
@@ -15,15 +15,17 @@ namespace Game.Battle.Models
             Team = team;
         }
 
-        public void AddUnit(UnitModel model)
+        public void AddUnit(BattleUnitModel model)
         {
+            model.SetTeam(Team);
+            
             _units.Add(model);
         }
 
         public int GetCharactersCount() =>
             _units.Count;
 
-        public IReadOnlyList<UnitModel> GetUnits() =>
+        public IReadOnlyList<BattleUnitModel> GetUnits() =>
             _units;
     }
 }

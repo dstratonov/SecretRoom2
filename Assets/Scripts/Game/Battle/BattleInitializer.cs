@@ -13,6 +13,7 @@ namespace Game.Battle
         private void Start()
         {
             _battle.Initialize(_battleConfig);
+            _battle.Start();
         }
     }
 }

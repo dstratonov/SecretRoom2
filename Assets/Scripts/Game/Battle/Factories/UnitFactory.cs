@@ -14,14 +14,14 @@ namespace Game.Battle.Factories
             _instantiator = instantiator;
         }
 
-        public UnitModel Create(UnitConfig config)
+        public BattleUnitModel Create(UnitConfig config)
         {
             var unitInstance = _instantiator.InstantiatePrefabForComponent<BattleUnit>(config.unit);
 
             //create stats
             //create abilities
 
-            return new UnitModel(config, unitInstance);
+            return new BattleUnitModel(config, unitInstance);
         }
     }
 }

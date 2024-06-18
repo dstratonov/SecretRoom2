@@ -1,43 +1,46 @@
 using System.Collections.Generic;
 using Common.Events;
 using Game.Battle.Configs;
-using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
-public class IconSetter : MonoBehaviour
+namespace Game.UI
 {
-    [SerializeField] private BattleConfig _battleConfig;
+    public class IconSetter : MonoBehaviour
+    {
+        [SerializeField] private BattleConfig _battleConfig;
     
-    public List<Image> enemySlots = new();
-    public List<Image> playerSlots = new();
+        public List<Image> enemySlots = new();
+        public List<Image> playerSlots = new();
 
-    [Inject] private EventBus _eventBus;
+        [Inject] private EventBus _eventBus;
 
-    private void Awake()
-    {
-        _eventBus.Subscribe<BattleStartedEvent>(OnBattleStarted);
-    }
-
-    private void OnBattleStarted(BattleStartedEvent battleStartedEventArgs)
-    {
-        SetEnemyTeam(_battleConfig.enemyUnits);
-        SetPlayerTeam(_battleConfig.playerUnits);
-    }
-
-    private void SetEnemyTeam(List<UnitConfig> enemyUnits)
-    {
-        for (var i = 0; i < enemyUnits.Count; i++)
+        private void Awake()
         {
-            enemySlots[i].sprite = enemyUnits[i].unitIcon;
+            _eventBus.Subscribe<BattleStartedEvent>(OnBattleStarted);
         }
-    }
 
-    private void SetPlayerTeam(List<UnitConfig> playerUnits)
-    {
-        for (var i = 0; i < playerUnits.Count; i++)
+        private void OnBattleStarted(BattleStartedEvent battleStartedEventArgs)
         {
-            playerSlots[i].sprite = playerUnits[i].unitIcon;
+            SetEnemyTeam(_battleConfig.enemyUnits);
+            SetPlayerTeam(_battleConfig.playerUnits);
+        }
+
+        private void SetEnemyTeam(List<UnitConfig> enemyUnits)
+        {
+            for (var i = 0; i < enemyUnits.Count; i++)
+            {
+                enemySlots[i].sprite = enemyUnits[i].unitIcon;
+            }
+        }
+
+        private void SetPlayerTeam(List<UnitConfig> playerUnits)
+        {
+            for (var i = 0; i < playerUnits.Count; i++)
+            {
+                playerSlots[i].sprite = playerUnits[i].unitIcon;
+            }
         }
     }
 }

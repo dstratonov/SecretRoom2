@@ -42,7 +42,7 @@ namespace Game.Battle
                 return;
             }
 
-            IReadOnlyList<UnitModel> units = team.GetUnits();
+            IReadOnlyList<BattleUnitModel> units = team.GetUnits();
 
             bool isOdd = (units.Count % 2) == 1;
 

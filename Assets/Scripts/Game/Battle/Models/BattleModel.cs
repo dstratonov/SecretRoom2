@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Game.Battle.Models
 {
@@ -12,6 +13,16 @@ namespace Game.Battle.Models
         {
             _playerTeam = playerTeam;
             _enemyTeam = enemyTeam;
+        }
+
+        public IEnumerable<BattleUnitModel> GetAllUnits()
+        {
+            List<BattleUnitModel> units = new();
+            
+            units.AddRange(_playerTeam.GetUnits());
+            units.AddRange(_enemyTeam.GetUnits());
+
+            return units;
         }
     }
 }

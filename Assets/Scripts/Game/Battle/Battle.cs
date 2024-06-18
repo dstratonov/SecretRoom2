@@ -1,47 +1,40 @@
 ﻿using System.Collections.Generic;
 using Common.Events;
 using Game.Battle.Configs;
-using Game.Battle.Factories;
 using Game.Battle.Models;
+using Game.Battle.SubModules;
 
 namespace Game.Battle
 {
     public class Battle
     {
-        private readonly BattleField _battleField;
+        private readonly BattleBuilder _battleBuilder;
         private readonly EventBus _eventBus;
-        private readonly UnitFactory _unitFactory;
+        private readonly List<BattleSubModule> _subModules;
 
         public BattleModel Model { get; private set; }
 
-        public Battle(UnitFactory unitFactory, BattleField battleField, EventBus eventBus)
+        public Battle(BattleBuilder battleBuilder, EventBus eventBus, List<BattleSubModule> subModules)
         {
-            _unitFactory = unitFactory;
-            _battleField = battleField;
+            _battleBuilder = battleBuilder;
             _eventBus = eventBus;
+            _subModules = subModules;
         }
 
         public void Initialize(BattleConfig battleConfig)
         {
-            Model = new BattleModel(
-                CreateTeam(Team.Player, battleConfig.playerUnits),
-                CreateTeam(Team.Enemy, battleConfig.enemyUnits));
-            
-            _eventBus.Fire<BattleStartedEvent>();
+            Model = _battleBuilder.Build(battleConfig);
+
+            foreach (BattleSubModule gameplaySubService in _subModules)
+            {
+                gameplaySubService.SetLevelModel(Model);
+                gameplaySubService.Initialize();
+            }
         }
 
-        private TeamModel CreateTeam(Team team, IReadOnlyList<UnitConfig> configs)
+        public void Start()
         {
-            var teamModel = new TeamModel(team);
-
-            foreach (UnitConfig unitConfig in configs)
-            {
-                teamModel.AddUnit(_unitFactory.Create(unitConfig));
-            }
-
-            _battleField.SetTeam(teamModel);
-
-            return teamModel;
+            _eventBus.Fire<BattleStartedEvent>();
         }
     }
 }

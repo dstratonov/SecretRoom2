@@ -1,5 +1,7 @@
-﻿using Common.Events;
+﻿using Common.Extensions;
 using Game.Battle.Factories;
+using Game.Battle.SubModules;
+using Game.Battle.SubModules.TurnControllers;
 using UnityEngine;
 using Zenject;
 
@@ -17,7 +19,14 @@ namespace Game.Battle
 
             Container.Bind<UnitFactory>().AsSingle();
             Container.Bind<Battle>().AsSingle();
-            Container.Bind<EventBus>().AsSingle();
+            Container.Bind<BattleBuilder>().AsSingle();
+
+            BindSubModules();
+        }
+
+        private void BindSubModules()
+        {
+            TurnControllerInstaller.Install(Container);
         }
     }
 }
