@@ -1,25 +1,39 @@
-using System.Collections;
 using System.Collections.Generic;
-using Game.Battle.Models;
+using Common.Events;
 using Game.Battle.Configs;
 using UnityEngine.UI;
 using UnityEngine;
+using Zenject;
 
 public class IconSetter : MonoBehaviour
 {
-    public List<Image> enemySlots = new List<Image>();
-    public List<Image> playerSlots = new List<Image>();
+    [SerializeField] private BattleConfig _battleConfig;
+    
+    public List<Image> enemySlots = new();
+    public List<Image> playerSlots = new();
 
-    public void SetEnemyTeam(List<UnitConfig> enemyUnits)
+    [Inject] private EventBus _eventBus;
+
+    private void Awake()
     {
+        _eventBus.Subscribe<BattleStartedEvent>(OnBattleStarted);
+    }
 
+    private void OnBattleStarted(BattleStartedEvent battleStartedEventArgs)
+    {
+        SetEnemyTeam(_battleConfig.enemyUnits);
+        SetPlayerTeam(_battleConfig.playerUnits);
+    }
+
+    private void SetEnemyTeam(List<UnitConfig> enemyUnits)
+    {
         for (var i = 0; i < enemyUnits.Count; i++)
         {
             enemySlots[i].sprite = enemyUnits[i].unitIcon;
         }
     }
 
-    public void SetPlayerTeam(List<UnitConfig> playerUnits)
+    private void SetPlayerTeam(List<UnitConfig> playerUnits)
     {
         for (var i = 0; i < playerUnits.Count; i++)
         {

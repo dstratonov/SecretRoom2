@@ -1,4 +1,5 @@
-﻿using Game.Battle.Factories;
+﻿using Common.Events;
+using Game.Battle.Factories;
 using UnityEngine;
 using Zenject;
 
@@ -16,6 +17,7 @@ namespace Game.Battle
 
             Container.Bind<UnitFactory>().AsSingle();
             Container.Bind<Battle>().AsSingle();
+            Container.Bind<EventBus>().AsSingle();
         }
     }
 }
