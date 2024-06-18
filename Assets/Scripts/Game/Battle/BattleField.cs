@@ -40,18 +40,33 @@ namespace Game.Battle
 
             IReadOnlyList<UnitModel> units = team.GetUnits();
 
-            units[0].Unit.SetPosition(startPosition);
+            bool isOdd = (units.Count % 2) == 1;
 
-            //todo SEKTOR FIX WHEN EVEN UNITS COUNT 
-            //todo TODAY!
-
-            for (var i = 1; i < units.Count; i++)
+            if (isOdd)
             {
-                int direction = i % 2 == 0 ? 1 : -1;
-                Vector3 currentPosition = startPosition + _fieldCenter.right * direction * _distanceBetweenCharacters *
-                    Mathf.Floor((i + 1) * 0.5f);
-                units[i].Unit.SetPosition(currentPosition);
+                units[0].Unit.SetPosition(startPosition);
+                for (var i = 1; i < units.Count; i++)
+                {
+                    int direction = i % 2 == 0 ? 1 : -1;
+                    Vector3 currentPosition = startPosition + _fieldCenter.right * direction * _distanceBetweenCharacters *
+                        Mathf.Floor((i + 1) * 0.5f);
+                    units[i].Unit.SetPosition(currentPosition);
+                }
             }
+            else
+            {
+                units[0].Unit.SetPosition(startPosition + _fieldCenter.right * _distanceBetweenCharacters * 0.5f);
+                units[1].Unit.SetPosition(startPosition + -_fieldCenter.right * _distanceBetweenCharacters * 0.5f);
+                for (var i = 2; i < units.Count; i++)
+                {
+                    int direction = i % 2 == 0 ? 1 : -1;
+                    Vector3 currentPosition = startPosition + _fieldCenter.right * direction * _distanceBetweenCharacters *
+                        Mathf.Floor(i * 0.5f) + _fieldCenter.right * direction * _distanceBetweenCharacters * 0.5f;
+                    units[i].Unit.SetPosition(currentPosition);
+                }
+            }
+
+            
         }
     }
 }
