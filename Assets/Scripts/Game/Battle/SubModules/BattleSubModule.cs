@@ -34,7 +34,7 @@ namespace Game.Battle.SubModules
         {
             Model = battleModel;
         }
-        
+
         protected virtual void OnBattleStarted(BattleStartedEvent args) { }
         protected virtual void OnDispose() { }
         protected virtual void OnInitialize() { }

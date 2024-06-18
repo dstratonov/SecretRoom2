@@ -14,7 +14,7 @@ namespace Game.Battle.SubModules.TurnControllers
             _instantiator = instantiator;
         }
 
-        public UnitController CreateController(Team team)
+        public UnitController GetController(Team team)
         {
             if (_unitControllers.TryGetValue(team, out UnitController controller))
             {
