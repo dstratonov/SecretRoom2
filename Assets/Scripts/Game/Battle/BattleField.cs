@@ -1,0 +1,57 @@
+using System.Collections.Generic;
+using Game.Battle.Models;
+using UnityEngine;
+
+namespace Game.Battle
+{
+    public class BattleField : MonoBehaviour
+    {
+        [SerializeField] private Transform _fieldCenter;
+        [SerializeField] private float _distanceBetweenTeams;
+        [SerializeField] private float _distanceBetweenCharacters;
+
+        public void SetTeam(TeamModel teamModel)
+        {
+            Vector3 initialPosition = teamModel.Team == Team.Player
+                ? GetPlayerInitialPosition()
+                : GetEnemyInitialPosition();
+
+            UpdateTeamPosition(teamModel, initialPosition);
+        }
+
+        private Vector3 GetEnemyInitialPosition()
+        {
+            Vector3 inEnemyDirection = _fieldCenter.forward;
+            return _fieldCenter.position + inEnemyDirection * (_distanceBetweenTeams * 0.5f);
+        }
+
+        private Vector3 GetPlayerInitialPosition()
+        {
+            Vector3 inEnemyDirection = _fieldCenter.forward;
+            return _fieldCenter.position + inEnemyDirection * (-_distanceBetweenTeams / 2.0f);
+        }
+
+        private void UpdateTeamPosition(TeamModel team, Vector3 startPosition)
+        {
+            if (team.GetCharactersCount() == 0)
+            {
+                return;
+            }
+
+            IReadOnlyList<UnitModel> units = team.GetUnits();
+
+            units[0].Unit.SetPosition(startPosition);
+
+            //todo SEKTOR FIX WHEN EVEN UNITS COUNT 
+            //todo TODAY!
+
+            for (var i = 1; i < units.Count; i++)
+            {
+                int direction = i % 2 == 0 ? 1 : -1;
+                Vector3 currentPosition = startPosition + _fieldCenter.right * direction * _distanceBetweenCharacters *
+                    Mathf.Floor((i + 1) * 0.5f);
+                units[i].Unit.SetPosition(currentPosition);
+            }
+        }
+    }
+}
