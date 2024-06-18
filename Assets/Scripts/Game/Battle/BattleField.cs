@@ -16,7 +16,11 @@ namespace Game.Battle
                 ? GetPlayerInitialPosition()
                 : GetEnemyInitialPosition();
 
-            UpdateTeamPosition(teamModel, initialPosition);
+            Quaternion unitsRotation = teamModel.Team == Team.Player
+                                        ? Quaternion.LookRotation(_fieldCenter.forward, _fieldCenter.up)
+                                        : Quaternion.LookRotation(-_fieldCenter.forward, _fieldCenter.up);
+
+            UpdateTeamTransform(teamModel, initialPosition, unitsRotation);
         }
 
         private Vector3 GetEnemyInitialPosition()
@@ -31,7 +35,7 @@ namespace Game.Battle
             return _fieldCenter.position + inEnemyDirection * (-_distanceBetweenTeams / 2.0f);
         }
 
-        private void UpdateTeamPosition(TeamModel team, Vector3 startPosition)
+        private void UpdateTeamTransform(TeamModel team, Vector3 startPosition, Quaternion rot)
         {
             if (team.GetCharactersCount() == 0)
             {
@@ -66,7 +70,10 @@ namespace Game.Battle
                 }
             }
 
-            
+            for (var i = 0; i < units.Count; i++)
+            {
+                units[i].Unit.SetRotation(rot);
+            }
         }
     }
 }

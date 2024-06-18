@@ -8,5 +8,10 @@ namespace Game.Battle.Units
         {
             transform.position = position;
         }
+
+        public void SetRotation(Quaternion quat)
+        {
+            transform.rotation = quat;
+        }
     }
 }
