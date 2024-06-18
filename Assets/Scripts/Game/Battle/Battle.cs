@@ -23,6 +23,7 @@ namespace Game.Battle
             Model = new BattleModel(
                 CreateTeam(Team.Player, battleConfig.playerUnits),
                 CreateTeam(Team.Enemy, battleConfig.enemyUnits));
+            
         }
 
         private TeamModel CreateTeam(Team team, IReadOnlyList<UnitConfig> configs)
