@@ -20,5 +20,52 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: mechanics
+      Entry: 7
+      Data: 0|Game.Battle.Abilities.Mechanics.Data.MechanicData[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|Game.Battle.Abilities.Mechanics.Data.DamageMechanicData, Assembly-CSharp
+    - Name: selection
+      Entry: 3
+      Data: 0
+    - Name: flatAmount
+      Entry: 3
+      Data: 5
+    - Name: statModifiers
+      Entry: 7
+      Data: Game.Battle.Stats.StatBasedModel, Assembly-CSharp
+    - Name: statBased
+      Entry: 5
+      Data: false
+    - Name: statModifiers
+      Entry: 7
+      Data: 2|Game.Battle.Stats.StatModifyModel[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   id: Ability_Id_0
+  energyCost: 2
+  selection: 0
