@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2fa4ef13ce9d4699b9951df0c99ffd89, type: 3}
-  m_Name: 1_Fire_Ball_Ability
+  m_Name: 0_FireBall_Ability
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -29,13 +29,13 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|Game.Battle.Abilities.Mechanics.Data.HealMechanicData, Assembly-CSharp
+      Data: 1|Game.Battle.Abilities.Mechanics.Data.DamageMechanicData, Assembly-CSharp
     - Name: selection
       Entry: 3
       Data: 0
     - Name: flatAmount
       Entry: 3
-      Data: 10
+      Data: 5
     - Name: statModifiers
       Entry: 7
       Data: Game.Battle.Stats.StatBasedModel, Assembly-CSharp
@@ -43,7 +43,16 @@ MonoBehaviour:
       Entry: 5
       Data: false
     - Name: statModifiers
-      Entry: 6
+      Entry: 7
+      Data: 2|Game.Battle.Stats.StatModifyModel[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: 
       Entry: 8
@@ -57,6 +66,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  id: Ability_Id_1
-  energyCost: 5
-  selection: 1
+  id: Ability_Id_0
+  energyCost: 2
+  selection: 0

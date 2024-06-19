@@ -1,6 +1,5 @@
-﻿using Common.Extensions;
+﻿using Game.Battle.Abilities;
 using Game.Battle.Factories;
-using Game.Battle.SubModules;
 using Game.Battle.SubModules.TurnControllers;
 using UnityEngine;
 using Zenject;
@@ -21,6 +20,8 @@ namespace Game.Battle
             Container.Bind<Battle>().AsSingle();
             Container.Bind<BattleBuilder>().AsSingle();
 
+            AbilitiesInstaller.Install(Container);
+            
             BindSubModules();
         }
 

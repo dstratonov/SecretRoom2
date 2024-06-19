@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Game.Battle.Abilities
 {
-    [CreateAssetMenu(fileName = nameof(AbilityConfig), menuName = "Battle/Configs/Ability")]
-    public class AbilityConfig : SerializedScriptableObject
+    [CreateAssetMenu(fileName = nameof(AbilityBattleConfig), menuName = "Configs/Battle/Ability")]
+    public class AbilityBattleConfig : SerializedScriptableObject
     {
         [AbilityId] public string id;
         public int energyCost;

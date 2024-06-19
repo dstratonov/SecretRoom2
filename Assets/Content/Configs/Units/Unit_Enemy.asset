@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e5188db04e384973b6e999779830db7, type: 3}
   m_Name: Unit_Enemy
   m_EditorClassIdentifier: 
+  id: enemy
   unitIcon: {fileID: 21300000, guid: ab36914be819741c8a700018bab718a2, type: 3}
-  unit: {fileID: 3219690795769336307, guid: 69c528c2b4e574e6a9024e28bef7b382, type: 3}
+  unitPawn: {fileID: 3219690795769336307, guid: 69c528c2b4e574e6a9024e28bef7b382,
+    type: 3}
+  health: 100
+  energy: 50
+  abilities:
+  - Ability_Id_1

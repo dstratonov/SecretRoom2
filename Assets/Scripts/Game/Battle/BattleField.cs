@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Game.Battle.Models;
+using Game.Battle.Units;
 using UnityEngine;
 
 namespace Game.Battle
@@ -17,8 +18,8 @@ namespace Game.Battle
                 : GetEnemyInitialPosition();
 
             Quaternion unitsRotation = teamModel.Team == Team.Player
-                                        ? Quaternion.LookRotation(_fieldCenter.forward, _fieldCenter.up)
-                                        : Quaternion.LookRotation(-_fieldCenter.forward, _fieldCenter.up);
+                ? Quaternion.LookRotation(_fieldCenter.forward, _fieldCenter.up)
+                : Quaternion.LookRotation(-_fieldCenter.forward, _fieldCenter.up);
 
             UpdateTeamTransform(teamModel, initialPosition, unitsRotation);
         }
@@ -44,35 +45,40 @@ namespace Game.Battle
 
             IReadOnlyList<BattleUnitModel> units = team.GetUnits();
 
-            bool isOdd = (units.Count % 2) == 1;
+            bool isOdd = units.Count % 2 == 1;
 
             if (isOdd)
             {
-                units[0].Unit.SetPosition(startPosition);
+                units[0].GetSystem<PawnSystem>().Pawn.SetPosition(startPosition);
                 for (var i = 1; i < units.Count; i++)
                 {
                     int direction = i % 2 == 0 ? 1 : -1;
-                    Vector3 currentPosition = startPosition + _fieldCenter.right * direction * _distanceBetweenCharacters *
+                    Vector3 currentPosition = startPosition + _fieldCenter.right * direction *
+                        _distanceBetweenCharacters *
                         Mathf.Floor((i + 1) * 0.5f);
-                    units[i].Unit.SetPosition(currentPosition);
+                    units[i].GetSystem<PawnSystem>().Pawn.SetPosition(currentPosition);
                 }
             }
             else
             {
-                units[0].Unit.SetPosition(startPosition + _fieldCenter.right * _distanceBetweenCharacters * 0.5f);
-                units[1].Unit.SetPosition(startPosition + -_fieldCenter.right * _distanceBetweenCharacters * 0.5f);
+                units[0].GetSystem<PawnSystem>().Pawn
+                    .SetPosition(startPosition + _fieldCenter.right * _distanceBetweenCharacters * 0.5f);
+                units[1].GetSystem<PawnSystem>().Pawn
+                    .SetPosition(startPosition + -_fieldCenter.right * _distanceBetweenCharacters * 0.5f);
+                
                 for (var i = 2; i < units.Count; i++)
                 {
                     int direction = i % 2 == 0 ? 1 : -1;
-                    Vector3 currentPosition = startPosition + _fieldCenter.right * direction * _distanceBetweenCharacters *
+                    Vector3 currentPosition = startPosition + _fieldCenter.right * direction *
+                        _distanceBetweenCharacters *
                         Mathf.Floor(i * 0.5f) + _fieldCenter.right * direction * _distanceBetweenCharacters * 0.5f;
-                    units[i].Unit.SetPosition(currentPosition);
+                    units[i].GetSystem<PawnSystem>().Pawn.SetPosition(currentPosition);
                 }
             }
 
-            for (var i = 0; i < units.Count; i++)
+            foreach (BattleUnitModel unit in units)
             {
-                units[i].Unit.SetRotation(rot);
+                unit.GetSystem<PawnSystem>().Pawn.SetRotation(rot);
             }
         }
     }

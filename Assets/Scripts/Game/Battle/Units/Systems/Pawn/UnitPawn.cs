@@ -2,7 +2,7 @@
 
 namespace Game.Battle.Units
 {
-    public class BattleUnit : MonoBehaviour
+    public class UnitPawn : MonoBehaviour
     {
         public void SetPosition(Vector3 position)
         {
