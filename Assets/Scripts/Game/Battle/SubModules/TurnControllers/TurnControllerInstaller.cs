@@ -14,7 +14,7 @@ namespace Game.Battle.SubModules.TurnControllers
         {
             subContainer.BindBattleSubModule<TurnControllerSubModule>();
 
-            subContainer.Bind<TurnControllerFactory>().AsSingle();
+            subContainer.Bind<UnitControllerFactory>().AsSingle();
         }
     }
 }

@@ -8,13 +8,13 @@ namespace Game.Battle.SubModules.TurnControllers
     public class TurnControllerSubModule : BattleSubModule
     {
         private readonly Queue<BattleUnitModel> _actingQueue = new();
-        private readonly TurnControllerFactory _turnControllerFactory;
+        private readonly UnitControllerFactory _unitControllerFactory;
 
         private UnitController _currentController;
 
-        public TurnControllerSubModule(TurnControllerFactory turnControllerFactory)
+        public TurnControllerSubModule(UnitControllerFactory unitControllerFactory)
         {
-            _turnControllerFactory = turnControllerFactory;
+            _unitControllerFactory = unitControllerFactory;
         }
 
         protected override void OnBattleStarted(BattleStartedEvent args)
@@ -37,7 +37,7 @@ namespace Game.Battle.SubModules.TurnControllers
         }
 
         private UnitController GetNextUnitController() =>
-            _turnControllerFactory.GetController(_actingQueue.Peek().Team);
+            _unitControllerFactory.GetController(_actingQueue.Peek().Team);
 
         private void Next()
         {

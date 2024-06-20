@@ -4,12 +4,12 @@ using Zenject;
 
 namespace Game.Battle.SubModules.TurnControllers
 {
-    public class TurnControllerFactory
+    public class UnitControllerFactory
     {
         private readonly IInstantiator _instantiator;
         private readonly Dictionary<Team, UnitController> _unitControllers = new();
 
-        public TurnControllerFactory(IInstantiator instantiator)
+        public UnitControllerFactory(IInstantiator instantiator)
         {
             _instantiator = instantiator;
         }
