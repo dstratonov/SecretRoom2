@@ -1,16 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Common.Events;
+using Common.Loggers;
 using Game.Battle.Models;
 
 namespace Game.Battle.SubModules.TurnControllers
 {
     public class TurnControllerSubModule : BattleSubModule
     {
-        private readonly Queue<BattleUnitModel> _actingQueue = new();
         private readonly UnitControllerFactory _unitControllerFactory;
 
-        private UnitController _currentController;
+        public event Action onPlayerTurnStarted;
+        public event Action onPlayerTurnFinished;
+
+        public event Action onEnemyTurnStarted;
+
+        public event Action onEnemyTurnFinished;
+
+        public event Action onBattleEnded;
+
+        private TeamController _currentTeamController;
+
+        private Team _currentTeamInTurn;
+
 
         public TurnControllerSubModule(UnitControllerFactory unitControllerFactory)
         {
@@ -20,50 +33,93 @@ namespace Game.Battle.SubModules.TurnControllers
         protected override void OnBattleStarted(BattleStartedEvent args)
         {
             base.OnBattleStarted(args);
+            _currentTeamInTurn = Team.Player;
 
-            Next();
+            PerformTeamTurn();
         }
 
-        private void FillActionQueue()
+        private TeamController GetCurrentTeamModel()
         {
-            IOrderedEnumerable<BattleUnitModel> sortedUnits = Model
-                .GetAllUnits()
-                .OrderBy(x => x.Team);
-
-            foreach (BattleUnitModel unitModel in sortedUnits)
+            switch(_currentTeamInTurn)
             {
-                _actingQueue.Enqueue(unitModel);
+                case Team.Player:
+                    return new TeamController(Model.PlayerTeam, _unitControllerFactory);
+                case Team.Enemy:
+                    return new TeamController(Model.EnemyTeam, _unitControllerFactory);
+            }
+
+            return null;
+        }
+
+        private void InvokeStartEvents()
+        {
+            switch(_currentTeamInTurn)
+            {
+                case Team.Player:
+                    onPlayerTurnStarted?.Invoke();
+                    break;
+                case Team.Enemy:
+                    onEnemyTurnStarted?.Invoke();
+                    break;
             }
         }
 
-        private UnitController GetNextUnitController() =>
-            _unitControllerFactory.GetController(_actingQueue.Peek().Team);
-
-        private void Next()
+        private void InvokeEndEvents()
         {
-            if (_actingQueue.Count == 0)
+            switch(_currentTeamInTurn)
             {
-                FillActionQueue();
+                case Team.Player:
+                    onPlayerTurnFinished?.Invoke();
+                    break;
+                case Team.Enemy:
+                    onEnemyTurnFinished?.Invoke();
+                    break;
             }
-
-            UnitController controller = GetNextUnitController();
-
-            _currentController = controller;
-
-            controller.SetUnit(_actingQueue.Dequeue());
-            controller.PrepareForTurn();
-
-            controller.TurnFinished += OnTurnFinished;
-            controller.Activate();
         }
 
-        private void OnTurnFinished()
+        private void PerformTeamTurn()
         {
-            _currentController.Deactivate();
-            _currentController.TurnFinished -= OnTurnFinished;
-            _currentController = null;
+            InvokeStartEvents();
 
-            Next();
+            this.Log("Team turn: " + _currentTeamInTurn);
+
+            _currentTeamController = GetCurrentTeamModel();
+            _currentTeamController._teamTurnFinished += OnTeamTurnFinished;
+            _currentTeamController.StartTurn();
+        }
+
+        private void CheckOnBattleEnded()
+        {
+            // todo add somehow end of battle maybe not in this class
+            onBattleEnded?.Invoke();
+        }
+
+        private void SwapTeam()
+        {
+            switch(_currentTeamInTurn)
+            {
+                case Team.Player:
+                    _currentTeamInTurn = Team.Enemy;
+                    break;
+                case Team.Enemy:
+                    _currentTeamInTurn = Team.Player;
+                    break;
+            }
+        }
+
+
+        private void OnTeamTurnFinished()
+        {
+            _currentTeamController._teamTurnFinished -= OnTeamTurnFinished;
+            _currentTeamController = null;
+
+            InvokeEndEvents();
+
+            CheckOnBattleEnded();
+
+            SwapTeam();
+
+            PerformTeamTurn();
         }
     }
 }

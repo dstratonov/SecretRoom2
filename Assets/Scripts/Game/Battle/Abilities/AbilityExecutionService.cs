@@ -1,13 +1,18 @@
-﻿using Game.Battle.Abilities.Mechanics;
+﻿using System;
+using Game.Battle.Abilities.Mechanics;
 using Game.Battle.Abilities.Mechanics.Core;
 using Game.Battle.Abilities.Mechanics.Data;
 using Game.Battle.Models;
+using Game.Battle.Units.Systems.Abilities;
 
 namespace Game.Battle.Abilities
 {
     public class AbilityExecutionService
     {
         private readonly MechanicsFactory _mechanicsFactory;
+
+        public event Action OnCastStarted;
+        public event Action OnCastEnded;
 
         public AbilityExecutionService(MechanicsFactory mechanicsFactory)
         {
@@ -16,6 +21,8 @@ namespace Game.Battle.Abilities
 
         public void CastAbility(string id, BattleUnitModel caster, BattleUnitModel target)
         {
+            var ability = caster.GetSystem<AbilitySystem>().GetAbilityModel(id);
+            Invoke(ability, caster, target);
             //todo get ability and call invoke
         }
         

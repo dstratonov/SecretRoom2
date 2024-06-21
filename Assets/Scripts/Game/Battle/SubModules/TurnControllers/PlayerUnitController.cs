@@ -29,6 +29,7 @@ namespace Game.Battle.SubModules.TurnControllers
 
             BattleActions.SelectNext.performed += OnSelectNextPerformed;
             BattleActions.SelectPrevious.performed += OnSelectPreviousPerformed;
+            BattleActions.PerformAbility.performed += OnAbilityPerformed;
 
             var abilitySystem = UnitModel.GetSystem<AbilitySystem>();
 
@@ -52,6 +53,7 @@ namespace Game.Battle.SubModules.TurnControllers
             
             BattleActions.SelectNext.performed -= OnSelectNextPerformed;
             BattleActions.SelectPrevious.performed -= OnSelectPreviousPerformed;
+            BattleActions.PerformAbility.performed -= OnAbilityPerformed;
         }
 
         private void OnSelectNextPerformed(InputAction.CallbackContext context)
@@ -63,7 +65,6 @@ namespace Game.Battle.SubModules.TurnControllers
 
             _selectedAbilityIndex = Mathf.Clamp(_selectedAbilityIndex + 1, 0, _unitAbilities.Count - 1);
 
-            Debug.Log("Select Next");
             SelectAbility();
         }
 
@@ -76,13 +77,16 @@ namespace Game.Battle.SubModules.TurnControllers
 
             _selectedAbilityIndex = Mathf.Clamp(_selectedAbilityIndex - 1, 0, _unitAbilities.Count - 1);
 
-            Debug.Log("Select Previous");
             SelectAbility();
         }
 
         private void SelectAbility()
         {
-            Debug.Log(_unitAbilities[_selectedAbilityIndex]);
+        }
+
+        private void OnAbilityPerformed(InputAction.CallbackContext context)
+        {
+            FinishTurn();
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Common.Factories
                 return default;
             }
             
-            var instance = (T2)_instantiator.Instantiate(type);
+            var instance = (T2)_instantiator.Instantiate(type, new object[]{ data });
             
             return instance;
         }
