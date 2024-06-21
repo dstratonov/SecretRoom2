@@ -20,13 +20,13 @@ namespace Game.Battle
             Container.Bind<Battle>().AsSingle();
             Container.Bind<BattleBuilder>().AsSingle();
 
-            AbilitiesInstaller.Install(Container);
             
             BindSubModules();
         }
 
         private void BindSubModules()
         {
+            AbilityExecutionServiceInstaller.Install(Container);
             TurnControllerInstaller.Install(Container);
         }
     }

@@ -14,5 +14,47 @@ namespace Game.Battle.Models
             PlayerTeam = playerTeam;
             EnemyTeam = enemyTeam;
         }
+
+        public TeamModel GetAllyTeamBySide(Team team)
+        {
+            switch (team)
+            {
+                case Team.Player:
+                {
+                    return PlayerTeam;
+                }
+
+                case Team.Enemy:
+                {
+                    return EnemyTeam;
+                }
+
+                default:
+                {
+                    return PlayerTeam;
+                }
+            }
+        }
+
+        public TeamModel GetOpponentTeamBySide(Team team)
+        {
+            switch (team)
+            {
+                case Team.Player:
+                {
+                    return EnemyTeam;
+                }
+
+                case Team.Enemy:
+                {
+                    return PlayerTeam;
+                }
+
+                default:
+                {
+                    return EnemyTeam;
+                }
+            }
+        }
     }
 }

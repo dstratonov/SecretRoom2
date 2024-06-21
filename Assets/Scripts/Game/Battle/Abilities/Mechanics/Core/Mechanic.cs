@@ -1,4 +1,5 @@
-﻿using Common.Loggers;
+﻿using System.Collections.Generic;
+using Common.Loggers;
 using Game.Battle.Abilities.Mechanics.Data;
 using Game.Battle.Models;
 using Zenject;
@@ -9,32 +10,34 @@ namespace Game.Battle.Abilities.Mechanics.Core
     {
         [Inject] protected TData Data { get; private set; }
 
-        protected override BattleUnitModel GetMechanicTarget(BattleUnitModel enemy)
-        {
-            return enemy;
-        }
+     
     }
 
     public abstract class Mechanic
     {
-        public void Invoke(BattleUnitModel enemy)
+        public BattleUnitModel Caster { get; private set; }
+        
+        public void SetCaster(BattleUnitModel caster)
         {
-            BattleUnitModel target = GetMechanicTarget(enemy);
+            Caster = caster;
+        }
+        
+        public void Invoke(IReadOnlyList<BattleUnitModel> targets)
+        {
+            foreach (BattleUnitModel target in targets)
+            {
+                LogOnInvoke(target);
 
-            LogOnInvoke(target);
-
-            OnInvoke(target);
+                OnInvoke(target);
+            }
         }
         
         protected virtual void LogOnInvoke(BattleUnitModel target)
         {
-            // this.Log($"Actor <color=yellow>{Caster.Id}</color> applies <color=orange>{GetType().Name}</color> " +
-                     // $"to actor <color=yellow>{target.Id}</color>");
+            this.Log($"Actor <color=yellow>{Caster.Id}</color> applies <color=orange>{GetType().Name}</color> " +
+                     $"to actor <color=yellow>{target.Id}</color>");
         }
         
         protected abstract void OnInvoke(BattleUnitModel target);
-        
-        
-        protected abstract BattleUnitModel GetMechanicTarget(BattleUnitModel enemy);
     }
 }
