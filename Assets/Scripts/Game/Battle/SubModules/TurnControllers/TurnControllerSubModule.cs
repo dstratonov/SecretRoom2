@@ -22,12 +22,17 @@ namespace Game.Battle.SubModules.TurnControllers
 
         private TeamController _currentTeamController;
 
+        public TeamController _playerTeamController;
+        public TeamController _enemyTeamController;
+
         private Team _currentTeamInTurn;
 
 
         public TurnControllerSubModule(UnitControllerFactory unitControllerFactory)
         {
             _unitControllerFactory = unitControllerFactory;
+            _playerTeamController = new TeamController(Model.PlayerTeam, _unitControllerFactory);
+            _enemyTeamController = new TeamController(Model.EnemyTeam, _unitControllerFactory);
         }
 
         protected override void OnBattleStarted(BattleStartedEvent args)
@@ -43,9 +48,9 @@ namespace Game.Battle.SubModules.TurnControllers
             switch(_currentTeamInTurn)
             {
                 case Team.Player:
-                    return new TeamController(Model.PlayerTeam, _unitControllerFactory);
+                    return _playerTeamController;
                 case Team.Enemy:
-                    return new TeamController(Model.EnemyTeam, _unitControllerFactory);
+                    return _enemyTeamController;
             }
 
             return null;
