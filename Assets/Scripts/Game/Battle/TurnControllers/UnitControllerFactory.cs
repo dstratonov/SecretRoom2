@@ -2,7 +2,7 @@
 using Game.Battle.Models;
 using Zenject;
 
-namespace Game.Battle.SubModules.TurnControllers
+namespace Game.Battle.TurnControllers
 {
     public class UnitControllerFactory
     {

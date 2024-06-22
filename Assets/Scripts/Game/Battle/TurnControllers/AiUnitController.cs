@@ -1,4 +1,4 @@
-﻿namespace Game.Battle.SubModules.TurnControllers
+﻿namespace Game.Battle.TurnControllers
 {
     public class AiUnitController : UnitController
     {

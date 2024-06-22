@@ -1,7 +1,7 @@
 ﻿using System;
-using Game.Battle.Models;
+using Game.Battle.Units;
 
-namespace Game.Battle.SubModules.TurnControllers
+namespace Game.Battle.TurnControllers
 {
     public abstract class UnitController
     {

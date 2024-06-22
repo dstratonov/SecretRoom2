@@ -1,4 +1,4 @@
-﻿namespace Common.Events
+﻿namespace Game.Battle.Events
 {
     public struct BattleStartedEvent
     {

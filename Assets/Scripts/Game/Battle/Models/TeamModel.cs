@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Game.Battle.Units;
 
 namespace Game.Battle.Models
 {

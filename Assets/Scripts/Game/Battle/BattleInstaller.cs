@@ -1,8 +1,8 @@
-﻿using Cinemachine;
-using Common.Extensions;
-using Game.Battle.Abilities;
-using Game.Battle.Factories;
-using Game.Battle.SubModules.TurnControllers;
+﻿using Game.Battle.Factories;
+using Game.Battle.SubModules;
+using Game.Battle.SubModules.AbilityExecution;
+using Game.Battle.SubModules.BattleCinemachine;
+using Game.Battle.TurnControllers;
 using UnityEngine;
 using Zenject;
 
@@ -10,7 +10,6 @@ namespace Game.Battle
 {
     public class BattleInstaller : MonoInstaller<BattleInstaller>
     {
-        [SerializeField] private CinemachineBrain _cinemachineBrain;
         [SerializeField] private BattleField _battleField;
         [SerializeField] private BattleInitializer _battleInitializer;
 
@@ -18,21 +17,21 @@ namespace Game.Battle
         {
             Container.BindInstance(_battleField);
             Container.BindInstance(_battleInitializer);
-            Container.BindInstance(_cinemachineBrain);
 
             Container.Bind<UnitFactory>().AsSingle();
             Container.Bind<Battle>().AsSingle();
             Container.Bind<BattleBuilder>().AsSingle();
+            Container.Bind<BattleSubModulesHolder>().AsSingle();
 
-            
+            TurnControllerInstaller.Install(Container);
+
             BindSubModules();
         }
 
         private void BindSubModules()
         {
             AbilityExecutionServiceInstaller.Install(Container);
-            TurnControllerInstaller.Install(Container);
-            Container.BindBattleSubModule<CameraControllerSubModule>();
+            BattleCineMachineSubModuleInstaller.Install(Container);
         }
     }
 }

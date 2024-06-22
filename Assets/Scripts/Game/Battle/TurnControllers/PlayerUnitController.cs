@@ -4,7 +4,7 @@ using Game.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Game.Battle.SubModules.TurnControllers
+namespace Game.Battle.TurnControllers
 {
     public class PlayerUnitController : UnitController
     {

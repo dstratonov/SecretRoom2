@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using Game.Battle.Models;
 using Game.Battle.Units;
+using Game.Battle.Units.Systems.Pawn;
 using UnityEngine;
 
 namespace Game.Battle

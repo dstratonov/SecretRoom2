@@ -2,6 +2,7 @@
 using Common.Loggers;
 using Game.Battle.Abilities.Mechanics.Data;
 using Game.Battle.Models;
+using Game.Battle.Units;
 using Zenject;
 
 namespace Game.Battle.Abilities.Mechanics.Core

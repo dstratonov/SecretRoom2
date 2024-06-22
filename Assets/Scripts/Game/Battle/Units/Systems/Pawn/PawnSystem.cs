@@ -1,6 +1,4 @@
-﻿using Game.Battle.Units.Systems;
-
-namespace Game.Battle.Units
+﻿namespace Game.Battle.Units.Systems.Pawn
 {
     public class PawnSystem : UnitSystem
     {

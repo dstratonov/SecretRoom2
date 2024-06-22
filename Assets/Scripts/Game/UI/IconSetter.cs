@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Common.Events;
 using Game.Battle.Configs;
+using Game.Battle.Events;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;

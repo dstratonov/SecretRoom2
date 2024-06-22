@@ -1,5 +1,6 @@
 using Game.Battle.Abilities;
 using Game.Battle.Units;
+using Game.Battle.Units.Systems.Pawn;
 using UnityEngine;
 
 namespace Game.Battle.Configs

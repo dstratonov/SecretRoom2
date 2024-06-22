@@ -1,7 +1,7 @@
 ﻿using Cinemachine;
 using UnityEngine;
 
-namespace Game.Battle.Units
+namespace Game.Battle.Units.Systems.Pawn
 {
     public class UnitPawn : MonoBehaviour
     {

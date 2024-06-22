@@ -1,9 +1,10 @@
-﻿using Game.Battle.Abilities.Mechanics.Data;
+﻿using Game.Battle.Abilities;
+using Game.Battle.Abilities.Mechanics.Data;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
 
-namespace Game.Battle.Abilities
+namespace Game.Battle
 {
     [CreateAssetMenu(fileName = nameof(AbilityBattleConfig), menuName = "Configs/Battle/Ability")]
     public class AbilityBattleConfig : SerializedScriptableObject

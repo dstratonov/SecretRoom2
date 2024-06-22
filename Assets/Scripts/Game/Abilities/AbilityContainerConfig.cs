@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Battle;
+using Game.Battle.Abilities;
 using UnityEngine;
 
-namespace Game.Battle.Abilities
+namespace Game.Abilities
 {
     [CreateAssetMenu(fileName = nameof(AbilityContainerConfig), menuName = "Configs/Game/Abilities Container")]
     public class AbilityContainerConfig : ScriptableObject, ISerializationCallbackReceiver
