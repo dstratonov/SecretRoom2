@@ -5,7 +5,8 @@ namespace Game.Battle.Units
 {
     public class UnitPawn : MonoBehaviour
     {
-        readonly public CinemachineVirtualCamera playerUnitCamera;
+        [SerializeField] private CinemachineVirtualCamera _playerUnitCamera;
+        
         public void SetPosition(Vector3 position)
         {
             transform.position = position;
@@ -15,5 +16,7 @@ namespace Game.Battle.Units
         {
             transform.rotation = quat;
         }
+
+        public CinemachineVirtualCamera VirtualCamera => _playerUnitCamera;
     }
 }

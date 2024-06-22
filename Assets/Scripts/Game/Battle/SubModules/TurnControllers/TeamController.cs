@@ -1,31 +1,32 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using Common.Events;
 using Common.Loggers;
+using Game.Battle.Events;
 using Game.Battle.Models;
 using Game.Battle.SubModules.TurnControllers;
-using UnityEngine;
 
 public class TeamController
 {
-    private TeamModel _teamModel;
-    private IReadOnlyList<BattleUnitModel> _turnUnitsQueue;
+    private readonly EventBus _eventBus;
+    private readonly TeamModel _teamModel;
     private readonly UnitControllerFactory _unitControllerFactory;
-    private int _currentUnitId;
-    
+
     private BattleUnitModel _currentUnit;
 
     private UnitController _currentUnitController;
+    private int _currentUnitId;
 
-    public event Action _teamTurnStarted;
+    private IReadOnlyList<BattleUnitModel> _turnUnitsQueue;
+    
     public event Action _teamTurnFinished;
+    public event Action _teamTurnStarted;
 
-    public event Action<UnitTurnInvokeArgs> _unitTurnStarted;
-    public event Action<UnitTurnInvokeArgs> _unitTurnFinished;
-
-    public TeamController(TeamModel teamModel, UnitControllerFactory unitControllerFactory){
+    public TeamController(TeamModel teamModel, UnitControllerFactory unitControllerFactory, EventBus eventBus)
+    {
         _teamModel = teamModel;
         _unitControllerFactory = unitControllerFactory;
+        _eventBus = eventBus;
     }
 
     public void StartTurn()
@@ -38,9 +39,33 @@ public class TeamController
 
         UnitTurn();
     }
-    
+
     private UnitController GetUnitController(BattleUnitModel unitModel) =>
-            _unitControllerFactory.GetController(unitModel.Team);
+        _unitControllerFactory.GetController(unitModel.Team);
+
+    private void OnUnitTurnFinished()
+    {
+        _eventBus.Fire(new UnitEndTurnEvent
+        {
+            uniModel = _currentUnit,
+        });
+
+        _currentUnitController.Deactivate();
+        _currentUnitController.TurnFinished -= OnUnitTurnFinished;
+
+        _currentUnitId++;
+
+        _currentUnitController = null;
+        _currentUnit = null;
+
+        if (_currentUnitId >= _turnUnitsQueue.Count)
+        {
+            _teamTurnFinished?.Invoke();
+            return;
+        }
+
+        UnitTurn();
+    }
 
     private void UnitTurn()
     {
@@ -55,24 +80,10 @@ public class TeamController
 
         _currentUnitController.TurnFinished += OnUnitTurnFinished;
         _currentUnitController.Activate();
-        _unitTurnStarted?.Invoke(new UnitTurnInvokeArgs{uniModel = _currentUnit});
-    }
 
-    private void OnUnitTurnFinished()
-    {
-        _unitTurnFinished?.Invoke(new UnitTurnInvokeArgs{uniModel = _currentUnit});
-
-        _currentUnitController.Deactivate();
-        _currentUnitController.TurnFinished -= OnUnitTurnFinished;
-        _currentUnitController = null;
-
-        _currentUnitId++;
-        _currentUnit = null;
-        if (_currentUnitId >= _turnUnitsQueue.Count)
+        _eventBus.Fire(new UnitStartTurnEvent
         {
-            _teamTurnFinished?.Invoke();
-            return;
-        }
-        UnitTurn();
+            uniModel = _currentUnit,
+        });
     }
 }

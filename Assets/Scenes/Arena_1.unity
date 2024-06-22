@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 2159.473, g: 2263.4182, b: 3286.4495, a: 1}
+  m_IndirectSpecularColor: {r: 2160.8157, g: 2265.0647, b: 3288.399, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -690,6 +690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e82a5af07e0e4b79be7e4f5c0aaf14c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cinemachineBrain: {fileID: 0}
   _battleField: {fileID: 237063587}
   _battleInitializer: {fileID: 1190483143}
 --- !u!114 &1186014897
@@ -993,11 +994,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 63.531258
+  near clip plane: 0.1
+  far clip plane: 5000
+  field of view: 40
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1020,14 +1021,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1823688464}
-  m_LocalRotation: {x: 0.030315295, y: 0.9023719, z: -0.122271806, w: -0.41213536}
-  m_LocalPosition: {x: -0.73039055, y: 1.6067486, z: 1.4211357}
+  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
+  m_LocalPosition: {x: 0, y: 5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
 --- !u!114 &1823688468
 MonoBehaviour:
   m_ObjectHideFlags: 0
