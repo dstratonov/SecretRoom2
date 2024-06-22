@@ -1,6 +1,6 @@
 ﻿using Zenject;
 
-namespace Game.Battle.SubModules.BattleCinemachine
+namespace Game.Battle.SubModules.BattleCineMachine
 {
     public class BattleCineMachineSubModuleInstaller : Installer<BattleCineMachineSubModuleInstaller>
     {

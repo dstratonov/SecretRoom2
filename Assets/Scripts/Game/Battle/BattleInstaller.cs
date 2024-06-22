@@ -1,7 +1,7 @@
 ﻿using Game.Battle.Factories;
 using Game.Battle.SubModules;
 using Game.Battle.SubModules.AbilityExecution;
-using Game.Battle.SubModules.BattleCinemachine;
+using Game.Battle.SubModules.BattleCineMachine;
 using Game.Battle.TurnControllers;
 using UnityEngine;
 using Zenject;

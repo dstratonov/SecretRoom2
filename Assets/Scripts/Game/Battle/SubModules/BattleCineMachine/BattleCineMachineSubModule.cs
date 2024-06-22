@@ -5,7 +5,7 @@ using Game.Battle.TurnControllers;
 using Game.Battle.Units;
 using Game.Battle.Units.Systems.Pawn;
 
-namespace Game.Battle.SubModules.BattleCinemachine
+namespace Game.Battle.SubModules.BattleCineMachine
 {
     public class BattleCineMachineSubModule : IBattleStartedSubModule, IUnitTurnStartedSubModule
     {
