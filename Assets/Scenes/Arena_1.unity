@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 2185.8938, g: 2336.1116, b: 3522.9067, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -136,6 +136,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyIconsHud
       objectReference: {fileID: 0}
+    - target: {fileID: 585146442730956512, guid: 8bee9150ca0c1ae42ac31df046377a67,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 2923544679985593911, guid: 8bee9150ca0c1ae42ac31df046377a67,
         type: 3}
       propertyPath: m_Pivot.x
@@ -219,7 +224,7 @@ PrefabInstance:
     - target: {fileID: 2923544679985593911, guid: 8bee9150ca0c1ae42ac31df046377a67,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -50
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 2923544679985593911, guid: 8bee9150ca0c1ae42ac31df046377a67,
         type: 3}
@@ -240,6 +245,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708820915242464349, guid: 8bee9150ca0c1ae42ac31df046377a67,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5875449638628333027, guid: 8bee9150ca0c1ae42ac31df046377a67,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -80
+      objectReference: {fileID: 0}
+    - target: {fileID: 6080292628523824068, guid: 8bee9150ca0c1ae42ac31df046377a67,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -690,7 +710,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e82a5af07e0e4b79be7e4f5c0aaf14c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cinemachineBrain: {fileID: 0}
   _battleField: {fileID: 237063587}
   _battleInitializer: {fileID: 1190483143}
 --- !u!114 &1186014897
@@ -1021,8 +1040,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1823688464}
-  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
-  m_LocalPosition: {x: 0, y: 5, z: -10}
+  m_LocalRotation: {x: 0.22254236, y: 0, z: 0, w: 0.9749231}
+  m_LocalPosition: {x: -0.3, y: 2.59, z: -3.56}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1312,6 +1331,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerIconsHud
       objectReference: {fileID: 0}
+    - target: {fileID: 585146442730956512, guid: 8bee9150ca0c1ae42ac31df046377a67,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 2923544679985593911, guid: 8bee9150ca0c1ae42ac31df046377a67,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1395,7 +1419,7 @@ PrefabInstance:
     - target: {fileID: 2923544679985593911, guid: 8bee9150ca0c1ae42ac31df046377a67,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 50
+      value: -14
       objectReference: {fileID: 0}
     - target: {fileID: 2923544679985593911, guid: 8bee9150ca0c1ae42ac31df046377a67,
         type: 3}
@@ -1416,6 +1440,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708820915242464349, guid: 8bee9150ca0c1ae42ac31df046377a67,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5875449638628333027, guid: 8bee9150ca0c1ae42ac31df046377a67,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -80
+      objectReference: {fileID: 0}
+    - target: {fileID: 6080292628523824068, guid: 8bee9150ca0c1ae42ac31df046377a67,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
