@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: enemy
   unitIcon: {fileID: 21300000, guid: ab36914be819741c8a700018bab718a2, type: 3}
-  unitPawn: {fileID: 3219690795769336307, guid: 69c528c2b4e574e6a9024e28bef7b382,
+  unitPawn: {fileID: 8256104074702198886, guid: ec37455c692ff5c4a8591bfc7c79f459,
     type: 3}
   health: 100
   energy: 50

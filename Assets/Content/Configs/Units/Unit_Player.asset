@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: player
   unitIcon: {fileID: 21300000, guid: 3fb21664a70244cf890d5e741bf119b5, type: 3}
-  unitPawn: {fileID: 3219690795769336307, guid: 75a1d371fa98a4a4880e458d5c6f1b4e,
+  unitPawn: {fileID: 3621902414540011647, guid: 0671ef327303f4140a74842d4e31bd43,
     type: 3}
   health: 10
   energy: 30
