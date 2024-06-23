@@ -30,7 +30,7 @@ namespace Game.UI
         {
             for (var i = 0; i < playerUnits.Count; i++)
             {
-                playerSlots[i].sprite = playerUnits[i].unitIcon;
+                playerSlots[i].sprite = playerUnits[i].viewData.unitIcon;
             }
         }
     }

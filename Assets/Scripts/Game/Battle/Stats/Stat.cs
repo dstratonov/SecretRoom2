@@ -2,7 +2,11 @@
 {
     public enum Stat
     {
-        Health = 0,
-        Energy = 1,
+        HP = 0,
+        AD = 1,
+        AP = 2,
+        DEF = 3,
+        EN = 4,
+        ENR = 5,
     }
 }

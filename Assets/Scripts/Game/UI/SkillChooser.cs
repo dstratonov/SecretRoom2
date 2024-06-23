@@ -1,43 +1,40 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class skillChooser : MonoBehaviour
+public class SkillChooser : MonoBehaviour
 {
-    private List<SkillWrapper> skills = new List<SkillWrapper>();
-    private Vector2 offset;
-
-    private Vector2 defaultSize = new Vector3(1.0f, 1.0f, 1.0f);
+    public int distanceBetween;
 
     public SkillWrapper skillItem;
 
     public Vector2 startPosition;
-
-    public int distanceBetween;
-    public float unselectedSizeModifier;
     public float unselectedOffsetModifier;
+    public float unselectedSizeModifier;
 
-    private int _selectedId = 0;
+    private int _selectedId;
 
-    void Start()
+    private Vector2 defaultSize = new Vector3(1.0f, 1.0f, 1.0f);
+    private Vector2 offset;
+    private readonly List<SkillWrapper> skills = new();
+
+    private void Start()
     {
-        var buttonPos = startPosition;
-        for (var i = 0; i < 10; i++){
+        Vector2 buttonPos = startPosition;
+        for (var i = 0; i < 10; i++)
+        {
             skills.Add(createNewButton(buttonPos, "skill: " + i));
             buttonPos.y -= distanceBetween;
         }
+
         UpdateOffset();
         // var newButton = Instantiate(skillItem, this.gameObject.transform);
         // newButton.SetPosition(startPosition);
         // updateSizes();
     }
 
-
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -48,11 +45,20 @@ public class skillChooser : MonoBehaviour
         {
             _selectedId++;
         }
+
         _selectedId = Math.Min(skills.Count - 1, _selectedId);
         _selectedId = Math.Max(0, _selectedId);
         UpdateOffset();
         UpdateSizes();
         UpdatePositions();
+    }
+
+    private SkillWrapper createNewButton(Vector2 buttonPosition, string buttonText)
+    {
+        SkillWrapper newButton = Instantiate(skillItem, gameObject.transform);
+        newButton.SetPosition(buttonPosition);
+        newButton.SetText(buttonText);
+        return newButton;
     }
 
     private void UpdateOffset()
@@ -61,33 +67,25 @@ public class skillChooser : MonoBehaviour
         offset.x = 0;
     }
 
-    private SkillWrapper createNewButton(Vector2 buttonPosition, string buttonText)
+    private void UpdatePositions()
     {
-        var newButton = Instantiate(skillItem, this.gameObject.transform);
-        newButton.SetPosition(buttonPosition);
-        newButton.SetText(buttonText);
-        return newButton;
+        for (var i = 0; i < skills.Count; i++)
+        {
+            float distance = Math.Abs(i - _selectedId);
+            Vector2 currPos = skills[i].GetPosition();
+            Vector2 newPos = currPos + offset;
+            newPos.x = startPosition.x + distance * unselectedOffsetModifier;
+            skills[i].SetSmoothPosition(newPos);
+        }
     }
 
-    void UpdateSizes()
+    private void UpdateSizes()
     {
-        for (int i = 0; i < skills.Count; i++)
+        for (var i = 0; i < skills.Count; i++)
         {
             float distance = Math.Abs(i - _selectedId);
             float coef = Mathf.Pow(unselectedSizeModifier, distance);
             skills[i].SetSize(coef);
-        }
-    }
-
-    void UpdatePositions()
-    {
-        for (int i = 0; i < skills.Count; i++)
-        {
-            float distance = Math.Abs(i - _selectedId);
-            var currPos = skills[i].GetPosition();
-            var newPos = currPos + offset;
-            newPos.x = startPosition.x + distance * unselectedOffsetModifier;
-            skills[i].SetSmoothPosition(newPos);
         }
     }
 }

@@ -1,9 +1,6 @@
-﻿using UnityEngine;
+﻿using Common.Configs;
 
 namespace Game.Battle.Abilities
 {
-    public class AbilityIdsConfig : ScriptableObject
-    {
-        public string[] ids;
-    }
+    public class AbilityIdsConfig : IdsConfig { }
 }

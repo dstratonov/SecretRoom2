@@ -9,14 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e5188db04e384973b6e999779830db7, type: 3}
-  m_Name: Unit_Player
+  m_Script: {fileID: 11500000, guid: 1be31b9ae1c04863a948772a1103b9fe, type: 3}
+  m_Name: UnitIdsConfig
   m_EditorClassIdentifier: 
-  id: 0_Ice_Cube
-  viewData:
-    unitIcon: {fileID: 0}
-    unitPawn: {fileID: 0}
-  battleData:
-    abilities: []
-    energy: 0
-    health: 0
+  ids:
+  - 0_Ice_Cube
+  - 1_Lava_Beast
+  - 2_Hungry_Flowey

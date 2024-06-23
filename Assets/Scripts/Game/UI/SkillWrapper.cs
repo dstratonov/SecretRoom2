@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -8,26 +6,30 @@ public class SkillWrapper : MonoBehaviour
     public TMP_Text skillText;
 
     [SerializeField] private RectTransform rectTransform;
+    [SerializeField] private Vector2 defaultSize;
+    
+    private Vector2 newPosition;
 
     private Vector3 newSize;
-    private Vector2 newPosition;
-    [SerializeField] private Vector2 defaultSize;
-    void Start()
+
+    private void Start()
     {
         newSize = new Vector3(defaultSize.x, defaultSize.y, 1.0f);
         rectTransform.localScale = newSize;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         rectTransform.localScale = Vector3.Lerp(rectTransform.localScale, newSize, 0.3f);
-        rectTransform.anchoredPosition = Vector3.Lerp(rectTransform.anchoredPosition, new Vector3(newPosition.x, newPosition.y, 0), 0.3f);
+        rectTransform.anchoredPosition = Vector3.Lerp(rectTransform.anchoredPosition,
+            new Vector3(newPosition.x, newPosition.y, 0), 0.3f);
     }
 
-    public void SetText(string newText)
+    public Vector2 GetPosition()
     {
-        skillText.text = newText;
+        Vector2 currPos = rectTransform.anchoredPosition;
+        return new Vector2(currPos.x, currPos.y);
     }
 
     public void SetPosition(Vector2 position)
@@ -36,10 +38,9 @@ public class SkillWrapper : MonoBehaviour
         newPosition = rectTransform.anchoredPosition;
     }
 
-    public Vector2 GetPosition()
+    public void SetSize(float sizeCoef)
     {
-        var currPos = rectTransform.anchoredPosition;
-        return new Vector2(currPos.x, currPos.y);
+        newSize = new Vector3(defaultSize.x * sizeCoef, defaultSize.y, 1.0f);
     }
 
     public void SetSmoothPosition(Vector2 position)
@@ -47,8 +48,8 @@ public class SkillWrapper : MonoBehaviour
         newPosition = new Vector3(position.x, position.y, 0);
     }
 
-    public void SetSize(float sizeCoef)
+    public void SetText(string newText)
     {
-        newSize = new Vector3(defaultSize.x * sizeCoef, defaultSize.y, 1.0f);
+        skillText.text = newText;
     }
 }

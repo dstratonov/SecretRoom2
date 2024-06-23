@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e5188db04e384973b6e999779830db7, type: 3}
   m_Name: Unit_Enemy
   m_EditorClassIdentifier: 
-  id: enemy
-  unitIcon: {fileID: 21300000, guid: ab36914be819741c8a700018bab718a2, type: 3}
-  unitPawn: {fileID: 8256104074702198886, guid: ec37455c692ff5c4a8591bfc7c79f459,
-    type: 3}
-  health: 100
-  energy: 50
-  abilities:
-  - Ability_Id_1
+  id: 2_Hungry_Flowey
+  viewData:
+    unitIcon: {fileID: 0}
+    unitPawn: {fileID: 0}
+  battleData:
+    abilities: []
+    energy: 0
+    health: 0
