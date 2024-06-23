@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common.Reactive;
 using Game.Battle.Abilities;
 using Game.Battle.Abilities.Mechanics;
 using Game.Battle.Abilities.Mechanics.Core;
 using Game.Battle.Abilities.Mechanics.Data;
 using Game.Battle.Models;
+using Game.Battle.Stats;
 using Game.Battle.Units;
 using Game.Battle.Units.Systems.Abilities;
+using Game.Battle.Units.Systems.Stats;
 
 namespace Game.Battle.SubModules.AbilityExecution
 {
@@ -52,16 +55,20 @@ namespace Game.Battle.SubModules.AbilityExecution
             OnCastEnded?.Invoke(castArgs);
         }
 
-        private void Invoke(AbilityModel model, BattleUnitModel caster, BattleUnitModel target)
+        private void Invoke(AbilityModel ability, BattleUnitModel caster, BattleUnitModel target)
         {
-            if (!model.CanUse())
+            ReactiveValue casterEnergy = caster
+                .GetSystem<StatsSystem>()
+                .GetStat(Stat.EN);
+            
+            if (!ability.CanUse(casterEnergy.Current))
             {
                 return;
             }
 
             List<BattleUnitModel> mechanicTargets = new();
             
-            foreach (MechanicData data in model.GetMechanics())
+            foreach (MechanicData data in ability.GetMechanics())
             {
                 mechanicTargets.Clear();
                 
@@ -73,7 +80,7 @@ namespace Game.Battle.SubModules.AbilityExecution
                 mechanic.Invoke(mechanicTargets);
             }
 
-            //todo Remove mana from caster
+            casterEnergy.Remove(ability.GetCost());
         }
         
         private void SetMechanicTargets(BattleUnitModel selectedUnit, BattleUnitModel caster, MechanicSelection selection,

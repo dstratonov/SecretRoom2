@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common.Loggers;
 using Game.Battle.Abilities.Mechanics.Data;
-using Game.Battle.Models;
 using Game.Battle.Units;
 using Zenject;
 
@@ -10,8 +9,6 @@ namespace Game.Battle.Abilities.Mechanics.Core
     public abstract class Mechanic<TData> : Mechanic where TData : MechanicData
     {
         [Inject] protected TData Data { get; private set; }
-
-     
     }
 
     public abstract class Mechanic
@@ -23,7 +20,7 @@ namespace Game.Battle.Abilities.Mechanics.Core
             Caster = caster;
         }
         
-        public void Invoke(IReadOnlyList<BattleUnitModel> targets)
+        public void Invoke(IEnumerable<BattleUnitModel> targets)
         {
             foreach (BattleUnitModel target in targets)
             {

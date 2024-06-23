@@ -5,28 +5,28 @@ namespace Common.Reactive
 {
     public class ReactiveValue
     {
-        private readonly float _min;
+        private readonly int _min;
 
         public event Action<ReactiveValueUpdatedEventArgs> Updated;
 
-        public float Current { get; private set; }
-        public float Max { get; private set; }
+        public int Current { get; private set; }
+        public int Max { get; private set; }
 
-        public ReactiveValue(float max = 0)
+        public ReactiveValue(int max = 0)
         {
             _min = 0;
             Max = max;
         }
 
-        public void Add(float amount)
+        public void Add(int amount)
         {
             if (Current >= Max)
             {
                 return;
             }
 
-            float before = Current;
-            float newValue = Current + amount;
+            int before = Current;
+            int newValue = Current + amount;
 
             Current = newValue > Max ? Max : newValue;
 
@@ -35,17 +35,17 @@ namespace Common.Reactive
         }
 
         public bool AtMax() =>
-            Mathf.FloorToInt(Current) == Mathf.FloorToInt(Max);
+            Current == Max;
 
-        public void Remove(float amount)
+        public void Remove(int amount)
         {
             if (Current <= _min)
             {
                 return;
             }
 
-            float before = Current;
-            float newValue = Current - amount;
+            int before = Current;
+            int newValue = Current - amount;
 
             Current = newValue > _min ? newValue : _min;
 
@@ -53,21 +53,24 @@ namespace Common.Reactive
             Updated?.Invoke(result);
         }
 
-        public void Set(float value)
+        public void Set(int value)
         {
-            float before = Current;
+            int before = Current;
 
             Current = Mathf.Clamp(value, _min, Max);
             var result = new ReactiveValueUpdatedEventArgs(before, Current, Max);
             Updated?.Invoke(result);
         }
 
-        public void AddMax(float value, bool fixCurrent = true) =>
+        public void AddMax(int value, bool fixCurrent = true) =>
             UpdateMax(value + Max, fixCurrent);
 
-        public void UpdateMax(float newMaxValue, bool fixCurrent = true)
+        public void RemoveMax(int value, bool fixCurrent = true) =>
+            UpdateMax(Max - value, fixCurrent);
+
+        public void UpdateMax(int newMaxValue, bool fixCurrent = true)
         {
-            float diff = newMaxValue - Max;
+            int diff = newMaxValue - Max;
             Max = newMaxValue;
 
             if (!fixCurrent)
@@ -75,8 +78,8 @@ namespace Common.Reactive
                 return;
             }
 
-            float before = Current;
-            float next = Current + diff;
+            int before = Current;
+            int next = Current + diff;
 
             if (next < 0)
             {

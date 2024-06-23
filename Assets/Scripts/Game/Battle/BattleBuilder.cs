@@ -32,15 +32,16 @@ namespace Game.Battle
                 CreatePlayerTeam(_gameModel.player, battleConfig.playerUnits),
                 CreateEnemyTeam(battleConfig.enemyUnits));
 
-        private BattleUnitModel CreateAllyUnit(UnitConfig unitConfig, Dictionary<Stat, ReactiveValue> playerStats)
+        private BattleUnitModel CreateAllyUnit(UnitConfig unitConfig, IDictionary<Stat, ReactiveValue> playerStats)
         {
             var stats = new Dictionary<Stat, ReactiveValue>();
 
             foreach (StatModel statModel in unitConfig.battleData.statMultipliers)
             {
-                stats.Add(
-                    statModel.stat,
-                    new ReactiveValue(Mathf.Floor(statModel.value * playerStats[statModel.stat].Max)));
+                var value = new ReactiveValue(Mathf.FloorToInt(statModel.value * playerStats[statModel.stat].Max));
+                value.Set(value.Max);
+                
+                stats.Add(statModel.stat, value);
             }
 
             if (!playerStats.TryGetValue(Stat.EN, out ReactiveValue energy))
@@ -53,7 +54,7 @@ namespace Game.Battle
 
             if (energyStat != null)
             {
-                energy.AddMax(energyStat.value, false);
+                energy.AddMax(Mathf.FloorToInt(energyStat.value));
             }
 
             stats.Add(Stat.EN, energy);
@@ -62,7 +63,10 @@ namespace Game.Battle
 
             if (energyRegenStat != null)
             {
-                stats.Add(Stat.ENR, new ReactiveValue(energyRegenStat.value));
+                var value = new ReactiveValue(Mathf.FloorToInt(energyRegenStat.value));
+                value.Set(value.Max);
+                
+                stats.Add(Stat.ENR, value);
             }
 
             BattleUnitModel unit = _unitFactory.Create(
@@ -94,7 +98,13 @@ namespace Game.Battle
             var teamModel = new TeamModel(team);
 
             Dictionary<Stat, ReactiveValue> playerStats
-                = playerModel.playerStats.ToDictionary(x => x.stat, x => new ReactiveValue(x.value));
+                = playerModel.playerStats
+                    .ToDictionary(x => x.stat, x =>
+                    {
+                        var value = new ReactiveValue(Mathf.FloorToInt(x.value));
+                        value.Set(value.Max);
+                        return value;
+                    });
 
             BattleUnitModel playerUnit = CreatePlayerUnit(playerModel, team, playerStats);
 

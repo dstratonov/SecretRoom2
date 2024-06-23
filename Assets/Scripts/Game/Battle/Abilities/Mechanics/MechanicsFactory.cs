@@ -9,6 +9,8 @@ namespace Game.Battle.Abilities.Mechanics
 {
     public class MechanicsFactory : TypedFactory<MechanicData, Mechanic>
     {
+        protected override bool IsPoolable => true;
+
         protected override Dictionary<Type, Type> Types =>
             new()
             {
@@ -16,9 +18,13 @@ namespace Game.Battle.Abilities.Mechanics
                 { typeof(DamageMechanicData), typeof(DamageMechanic) },
             };
 
-        public MechanicsFactory(IInstantiator instantiator) : base(instantiator) { }
+        public MechanicsFactory(DiContainer container) : base(container) { }
 
-        public override Mechanic Create(MechanicData data) =>
-            CreateRaw(data);
+        public override Mechanic Create(MechanicData data)
+        {
+            Mechanic mechanic = CreateRaw(data);
+
+            return mechanic;
+        }
     }
 }

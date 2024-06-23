@@ -16,8 +16,11 @@ namespace Game.Battle.Abilities
             _data = data;
         }
         
-        public bool CanUse() =>
-            true;
+        public bool CanUse(int energyCount) =>
+            _data.energyCost <= energyCount;
+
+        public int GetCost() =>
+            _data.energyCost;
 
         public IEnumerable<MechanicData> GetMechanics() =>
             _data.mechanics;

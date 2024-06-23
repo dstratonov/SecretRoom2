@@ -6,13 +6,16 @@ namespace Common.Factories
 {
     public abstract class TypedFactory<T1, T2>
     {
-        private readonly IInstantiator _instantiator;
+        private readonly DiContainer _container;
+
+        private readonly Dictionary<Type, T2> _pooledInstances = new();
+        protected abstract bool IsPoolable { get; }
 
         protected abstract Dictionary<Type, Type> Types { get; }
 
-        protected TypedFactory(IInstantiator instantiator)
+        protected TypedFactory(DiContainer container)
         {
-            _instantiator = instantiator;
+            _container = container;
         }
 
         public abstract T2 Create(T1 data);
@@ -25,9 +28,24 @@ namespace Common.Factories
             {
                 return default;
             }
-            
-            var instance = (T2)_instantiator.Instantiate(type, new object[]{ data });
-            
+
+            T2 instance;
+
+            if (IsPoolable && _pooledInstances.ContainsKey(type))
+            {
+                instance = _pooledInstances[type];
+                _container.Inject(instance, new object[] { data });
+
+                return instance;
+            }
+
+            instance = (T2)_container.Instantiate(type, new object[] { data });
+
+            if (IsPoolable)
+            {
+                _pooledInstances.Add(type, instance);
+            }
+
             return instance;
         }
     }
