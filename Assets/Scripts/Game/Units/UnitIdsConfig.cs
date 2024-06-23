@@ -1,6 +1,6 @@
 ﻿using Common.Configs;
 
-namespace Game.Battle.Configs
+namespace Game.Units
 {
     public class UnitIdsConfig : IdsConfig { }
 }

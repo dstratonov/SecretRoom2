@@ -2,6 +2,7 @@
 using System.Linq;
 using Game.Battle.Configs;
 using Game.Models;
+using Game.Units;
 using UnityEngine;
 using Zenject;
 

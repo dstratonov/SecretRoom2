@@ -1,4 +1,4 @@
-﻿using Common.Editor;
+﻿using Common.Configs.Editor;
 using JetBrains.Annotations;
 
 namespace Game.Battle.Abilities.Editor

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Game.Battle.Configs
+namespace Game.Units
 {
     [AttributeUsage(AttributeTargets.Field)]
     public class UnitIdAttribute : Attribute { }

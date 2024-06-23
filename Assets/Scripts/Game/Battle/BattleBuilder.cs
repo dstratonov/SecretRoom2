@@ -7,6 +7,7 @@ using Game.Battle.Models;
 using Game.Battle.Stats;
 using Game.Battle.Units;
 using Game.Models;
+using Game.Units;
 using UnityEngine;
 
 namespace Game.Battle
@@ -14,10 +15,10 @@ namespace Game.Battle
     public class BattleBuilder
     {
         private readonly BattleField _battleField;
-        private readonly UnitFactory _unitFactory;
-        
+
         //todo rn it's for debug purpose
         private readonly GameModel _gameModel;
+        private readonly UnitFactory _unitFactory;
 
         public BattleBuilder(BattleField battleField, UnitFactory unitFactory, GameModel gameModel)
         {
@@ -30,67 +31,47 @@ namespace Game.Battle
             new(
                 CreatePlayerTeam(_gameModel.player, battleConfig.playerUnits),
                 CreateEnemyTeam(battleConfig.enemyUnits));
-        
-        private TeamModel CreatePlayerTeam(PlayerModel playerModel, IReadOnlyList<UnitConfig> configs)
+
+        private BattleUnitModel CreateAllyUnit(UnitConfig unitConfig, Dictionary<Stat, ReactiveValue> playerStats)
         {
-            const Team team = Team.Player;
-            var teamModel = new TeamModel(team);
-            Dictionary<Stat, ReactiveValue> playerStats 
-                = playerModel.playerStats.ToDictionary(x => x.stat, x => new ReactiveValue(x.value));
-            
-            BattleUnitModel playerUnit = _unitFactory.Create(
-                "Player",
-                playerModel.playerView,
-                playerStats,
-                playerModel.abilities.ToArray());
-            
-            playerUnit.SetTeam(team);
-            teamModel.AddUnit(playerUnit);
+            var stats = new Dictionary<Stat, ReactiveValue>();
 
-            foreach (UnitConfig unitConfig in configs)
+            foreach (StatModel statModel in unitConfig.battleData.statMultipliers)
             {
-                var stats = new Dictionary<Stat, ReactiveValue>();
-
-                foreach (StatModel statModel in unitConfig.battleData.statMultipliers)
-                {
-                    stats.Add(
-                        statModel.stat,
-                        new ReactiveValue(Mathf.Floor(statModel.value * playerStats[statModel.stat].Max)));
-                }
-
-                if (!playerStats.TryGetValue(Stat.EN, out ReactiveValue energy))
-                {
-                    energy = new ReactiveValue();
-                    playerStats.Add(Stat.EN, energy);
-                }
-
-                StatModel energyStat = unitConfig.battleData.rawStats.FirstOrDefault(x => x.stat == Stat.EN);
-
-                if (energyStat != null)
-                {
-                    energy.AddMax(energyStat.value, false);
-                }
-                
-                stats.Add(Stat.EN, energy);
-                
-                StatModel energyRegenStat = unitConfig.battleData.rawStats.FirstOrDefault(x => x.stat == Stat.ENR);
-
-                if (energyRegenStat != null)
-                {
-                    stats.Add(Stat.ENR, new ReactiveValue(energyRegenStat.value));
-                }
-                
-                BattleUnitModel unit = _unitFactory.Create(
-                    unitConfig.id,
-                    unitConfig.viewData,
-                    stats,
-                    unitConfig.battleData.abilities);
-                
-                unit.SetTeam(team);
-                teamModel.AddUnit(unit);
+                stats.Add(
+                    statModel.stat,
+                    new ReactiveValue(Mathf.Floor(statModel.value * playerStats[statModel.stat].Max)));
             }
-            
-            return teamModel;
+
+            if (!playerStats.TryGetValue(Stat.EN, out ReactiveValue energy))
+            {
+                energy = new ReactiveValue();
+                playerStats.Add(Stat.EN, energy);
+            }
+
+            StatModel energyStat = unitConfig.battleData.rawStats.FirstOrDefault(x => x.stat == Stat.EN);
+
+            if (energyStat != null)
+            {
+                energy.AddMax(energyStat.value, false);
+            }
+
+            stats.Add(Stat.EN, energy);
+
+            StatModel energyRegenStat = unitConfig.battleData.rawStats.FirstOrDefault(x => x.stat == Stat.ENR);
+
+            if (energyRegenStat != null)
+            {
+                stats.Add(Stat.ENR, new ReactiveValue(energyRegenStat.value));
+            }
+
+            BattleUnitModel unit = _unitFactory.Create(
+                unitConfig.id,
+                unitConfig.viewData,
+                stats,
+                unitConfig.battleData.abilities);
+
+            return unit;
         }
 
         private TeamModel CreateEnemyTeam(IEnumerable<UnitConfig> configs)
@@ -105,6 +86,45 @@ namespace Game.Battle
             _battleField.SetTeam(teamModel);
 
             return teamModel;
+        }
+
+        private TeamModel CreatePlayerTeam(PlayerModel playerModel, IReadOnlyList<UnitConfig> configs)
+        {
+            const Team team = Team.Player;
+            var teamModel = new TeamModel(team);
+
+            Dictionary<Stat, ReactiveValue> playerStats
+                = playerModel.playerStats.ToDictionary(x => x.stat, x => new ReactiveValue(x.value));
+
+            BattleUnitModel playerUnit = CreatePlayerUnit(playerModel, team, playerStats);
+
+            teamModel.AddUnit(playerUnit);
+
+            foreach (UnitConfig unitConfig in configs)
+            {
+                BattleUnitModel unit = CreateAllyUnit(unitConfig, playerStats);
+
+                unit.SetTeam(team);
+                teamModel.AddUnit(unit);
+            }
+
+            _battleField.SetTeam(teamModel);
+
+            return teamModel;
+        }
+
+        private BattleUnitModel CreatePlayerUnit(PlayerModel playerModel, Team team,
+            Dictionary<Stat, ReactiveValue> stats)
+        {
+            BattleUnitModel playerUnit = _unitFactory.Create(
+                "Player",
+                playerModel.playerView,
+                stats,
+                playerModel.abilities.ToArray());
+
+            playerUnit.SetTeam(team);
+
+            return playerUnit;
         }
     }
 }

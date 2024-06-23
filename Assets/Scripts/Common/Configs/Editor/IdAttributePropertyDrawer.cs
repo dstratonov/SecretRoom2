@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
-using Common.Configs;
 using JetBrains.Annotations;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace Common.Editor
+namespace Common.Configs.Editor
 {
     [UsedImplicitly]
     public abstract class IdAttributePropertyDrawer<TAttribute, TConfig> : OdinAttributeDrawer<TAttribute> 

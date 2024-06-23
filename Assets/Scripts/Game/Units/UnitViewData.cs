@@ -2,7 +2,7 @@
 using Game.Battle.Units.Systems.Pawn;
 using UnityEngine;
 
-namespace Game.Battle.Configs
+namespace Game.Units
 {
     [Serializable]
     public class UnitViewData

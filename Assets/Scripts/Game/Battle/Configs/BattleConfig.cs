@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.Units;
 using UnityEngine;
 
 namespace Game.Battle.Configs
