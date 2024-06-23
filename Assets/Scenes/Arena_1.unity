@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 2157.9417, g: 2262.9612, b: 3288.0317, a: 1}
+  m_IndirectSpecularColor: {r: 2160.4856, g: 2264.547, b: 3287.5825, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -437,12 +437,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 059b36261a26c4372b3b5e8f6fb17a15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distanceBetween: 25
   skillItem: {fileID: 153588570061144911, guid: ab07fe78cbd4f469fb204fec8a0bd6aa,
     type: 3}
   startPosition: {x: 120, y: 200}
-  distanceBetween: 25
-  unselectedSizeModifier: 0.7
   unselectedOffsetModifier: -20
+  unselectedSizeModifier: 0.7
 --- !u!1 &432432459
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,6 +619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _battleConfig: {fileID: 11400000, guid: a82f9894811bea54ab57d4a31329feb2, type: 2}
+  _playerUnitConfig: {fileID: 11400000, guid: f12076d6193042341bb2e71bf2b76fa0, type: 2}
 --- !u!4 &1190483144
 Transform:
   m_ObjectHideFlags: 0
