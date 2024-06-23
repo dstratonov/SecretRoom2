@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.Battle.Configs;
 using Game.Battle.Models;
 using Game.Battle.Units.Systems;
 

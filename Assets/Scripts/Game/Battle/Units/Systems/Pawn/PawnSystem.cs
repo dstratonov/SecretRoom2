@@ -8,19 +8,5 @@
         {
             Pawn = pawn;
         }
-
-        protected override void OnInitialize()
-        {
-            base.OnInitialize();
-            
-            // Pawn.EnableComponents();
-        }
-
-        protected override void OnDispose()
-        {
-            base.OnDispose();
-            
-            // Pawn.DisableComponents();
-        }
     }
 }

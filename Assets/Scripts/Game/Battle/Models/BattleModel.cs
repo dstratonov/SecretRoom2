@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Battle.Units;
 
 namespace Game.Battle.Models
 {
@@ -15,6 +16,16 @@ namespace Game.Battle.Models
             EnemyTeam = enemyTeam;
         }
 
+        public IEnumerable<BattleUnitModel> GetAllUnits()
+        {
+            List<BattleUnitModel> units = new();
+
+            units.AddRange(PlayerTeam.GetUnits());
+            units.AddRange(EnemyTeam.GetUnits());
+
+            return units;
+        }
+        
         public TeamModel GetAllyTeamBySide(Team team)
         {
             switch (team)

@@ -12,19 +12,6 @@ namespace Game.Battle.Units.Systems.Stats
         {
             _stats = stats;
         }
-        
-        public StatsSystem(IReadOnlyDictionary<Stat, int> stats)
-        {
-            FillStats(stats);
-        }
-        
-        private void FillStats(IReadOnlyDictionary<Stat, int> stats)
-        {
-            foreach (KeyValuePair<Stat,int> keyValueStat in stats)
-            {
-                _stats.Add(keyValueStat.Key, new ReactiveValue(keyValueStat.Value));
-            }
-        }
 
         public ReactiveValue GetStat(Stat stat)
         {

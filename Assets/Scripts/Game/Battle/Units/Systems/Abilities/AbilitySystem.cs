@@ -20,9 +20,6 @@ namespace Game.Battle.Units.Systems.Abilities
             _abilities.Remove(id);
         }
 
-        // public bool CanInvoke(string id) =>
-        //     _abilities.TryGetValue(id, out AbilityModel ability) && ability.CanUse();
-
         public int Count() =>
             _abilities.Count;
 
