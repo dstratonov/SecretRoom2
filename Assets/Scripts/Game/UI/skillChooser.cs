@@ -18,6 +18,7 @@ public class skillChooser : MonoBehaviour
 
     public int distanceBetween;
     public float unselectedSizeModifier;
+    public float unselectedOffsetModifier;
 
     private int _selectedId = 0;
 
@@ -57,6 +58,7 @@ public class skillChooser : MonoBehaviour
     private void UpdateOffset()
     {
         offset = startPosition - skills[_selectedId].GetPosition();
+        offset.x = 0;
     }
 
     private SkillWrapper createNewButton(Vector2 buttonPosition, string buttonText)
@@ -81,8 +83,11 @@ public class skillChooser : MonoBehaviour
     {
         for (int i = 0; i < skills.Count; i++)
         {
+            float distance = Math.Abs(i - _selectedId);
             var currPos = skills[i].GetPosition();
-            skills[i].SetSmoothPosition(currPos + offset);
+            var newPos = currPos + offset;
+            newPos.x = startPosition.x + distance * unselectedOffsetModifier;
+            skills[i].SetSmoothPosition(newPos);
         }
     }
 }

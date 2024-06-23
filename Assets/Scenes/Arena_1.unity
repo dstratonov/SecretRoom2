@@ -441,6 +441,7 @@ MonoBehaviour:
   startPosition: {x: 120, y: 200}
   distanceBetween: 25
   unselectedSizeModifier: 0.7
+  unselectedOffsetModifier: -20
 --- !u!1 &432432459
 GameObject:
   m_ObjectHideFlags: 0
