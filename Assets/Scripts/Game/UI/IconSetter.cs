@@ -12,7 +12,6 @@ namespace Game.UI
     {
         [SerializeField] private BattleConfig _battleConfig;
     
-        public List<Image> enemySlots = new();
         public List<Image> playerSlots = new();
 
         [Inject] private EventBus _eventBus;
@@ -24,16 +23,7 @@ namespace Game.UI
 
         private void OnBattleStarted(BattleStartedEvent battleStartedEventArgs)
         {
-            SetEnemyTeam(_battleConfig.enemyUnits);
             SetPlayerTeam(_battleConfig.playerUnits);
-        }
-
-        private void SetEnemyTeam(List<UnitConfig> enemyUnits)
-        {
-            for (var i = 0; i < enemyUnits.Count; i++)
-            {
-                enemySlots[i].sprite = enemyUnits[i].unitIcon;
-            }
         }
 
         private void SetPlayerTeam(List<UnitConfig> playerUnits)
