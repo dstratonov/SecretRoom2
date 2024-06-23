@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,19 +7,33 @@ using UnityEngine.UI;
 
 public class skillChooser : MonoBehaviour
 {
-    public List<RectTransform> skills;
+    private List<SkillWrapper> skills = new List<SkillWrapper>();
+    private Vector2 offset;
 
-    public float unselectedSizeModifier;
     private Vector2 defaultSize = new Vector3(1.0f, 1.0f, 1.0f);
+
+    public SkillWrapper skillItem;
+
+    public Vector2 startPosition;
+
+    public int distanceBetween;
+    public float unselectedSizeModifier;
 
     private int _selectedId = 0;
 
-    public float lerpCoef = 0.7f;
-
     void Start()
     {
-        updateSizes();
+        var buttonPos = startPosition;
+        for (var i = 0; i < 10; i++){
+            skills.Add(createNewButton(buttonPos, "skill: " + i));
+            buttonPos.y -= distanceBetween;
+        }
+        UpdateOffset();
+        // var newButton = Instantiate(skillItem, this.gameObject.transform);
+        // newButton.SetPosition(startPosition);
+        // updateSizes();
     }
+
 
     // Update is called once per frame
     void Update()
@@ -26,34 +41,48 @@ public class skillChooser : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Z))
         {
             _selectedId--;
-            if (_selectedId < 0)
-            {
-                _selectedId = skills.Count - 1;
-            }
         }
 
         if (Input.GetKeyDown(KeyCode.X))
         {
             _selectedId++;
-            if (_selectedId >= skills.Count)
-            {
-                _selectedId = 0;
-            }
         }
-
-        updateSizes();
+        _selectedId = Math.Min(skills.Count - 1, _selectedId);
+        _selectedId = Math.Max(0, _selectedId);
+        UpdateOffset();
+        UpdateSizes();
+        UpdatePositions();
     }
 
-    void updateSizes()
+    private void UpdateOffset()
+    {
+        offset = startPosition - skills[_selectedId].GetPosition();
+    }
+
+    private SkillWrapper createNewButton(Vector2 buttonPosition, string buttonText)
+    {
+        var newButton = Instantiate(skillItem, this.gameObject.transform);
+        newButton.SetPosition(buttonPosition);
+        newButton.SetText(buttonText);
+        return newButton;
+    }
+
+    void UpdateSizes()
     {
         for (int i = 0; i < skills.Count; i++)
         {
-            if (i != _selectedId){
-                skills[i].localScale = Vector3.Lerp(skills[i].localScale, defaultSize * unselectedSizeModifier, lerpCoef);
-            }
-            else{
-                skills[i].localScale = Vector3.Lerp(skills[i].localScale, defaultSize, lerpCoef);
-            }
+            float distance = Math.Abs(i - _selectedId);
+            float coef = Mathf.Pow(unselectedSizeModifier, distance);
+            skills[i].SetSize(coef);
+        }
+    }
+
+    void UpdatePositions()
+    {
+        for (int i = 0; i < skills.Count; i++)
+        {
+            var currPos = skills[i].GetPosition();
+            skills[i].SetSmoothPosition(currPos + offset);
         }
     }
 }
