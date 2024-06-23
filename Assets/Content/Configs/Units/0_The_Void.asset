@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e5188db04e384973b6e999779830db7, type: 3}
+  m_Name: 0_The_Void
+  m_EditorClassIdentifier: 
+  id: 0_The_Void
+  viewData:
+    unitIcon: {fileID: 21300000, guid: 3fb21664a70244cf890d5e741bf119b5, type: 3}
+    unitPawn: {fileID: 3621902414540011647, guid: 0671ef327303f4140a74842d4e31bd43,
+      type: 3}
+  battleData:
+    abilities:
+    - Ability_Id_0
+    rawStats:
+    - stat: 0
+      value: 5
+    - stat: 1
+      value: 5
+    - stat: 2
+      value: 5
+    - stat: 3
+      value: 5
+    - stat: 4
+      value: 5
+    - stat: 5
+      value: 5
+    statMultipliers: []

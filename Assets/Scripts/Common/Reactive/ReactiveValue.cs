@@ -62,6 +62,9 @@ namespace Common.Reactive
             Updated?.Invoke(result);
         }
 
+        public void AddMax(float value, bool fixCurrent = true) =>
+            UpdateMax(value + Max, fixCurrent);
+
         public void UpdateMax(float newMaxValue, bool fixCurrent = true)
         {
             float diff = newMaxValue - Max;

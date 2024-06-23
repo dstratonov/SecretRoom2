@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32a9ea92212a4ec291dab1b1a6d00962, type: 3}
   m_Name: Battle_0
   m_EditorClassIdentifier: 
-  enemyUnits:
-  - {fileID: 11400000, guid: 062ac26c9f4a34e21a8e06a9fa81a553, type: 2}
-  - {fileID: 11400000, guid: 062ac26c9f4a34e21a8e06a9fa81a553, type: 2}
-  - {fileID: 11400000, guid: 062ac26c9f4a34e21a8e06a9fa81a553, type: 2}
-  - {fileID: 11400000, guid: 062ac26c9f4a34e21a8e06a9fa81a553, type: 2}
   playerUnits:
+  - {fileID: 11400000, guid: 9068f3812530f2d49bf96d4399d28f09, type: 2}
+  - {fileID: 11400000, guid: 9068f3812530f2d49bf96d4399d28f09, type: 2}
+  - {fileID: 11400000, guid: 9068f3812530f2d49bf96d4399d28f09, type: 2}
+  enemyUnits:
+  - {fileID: 11400000, guid: 5037bcb95dac3684dbd9b177d1911b18, type: 2}
   - {fileID: 11400000, guid: 5cbab712fb8b5a0449b014d0699bcae9, type: 2}
-  - {fileID: 11400000, guid: 5cbab712fb8b5a0449b014d0699bcae9, type: 2}
-  - {fileID: 11400000, guid: 5cbab712fb8b5a0449b014d0699bcae9, type: 2}
+  - {fileID: 11400000, guid: 5037bcb95dac3684dbd9b177d1911b18, type: 2}
   - {fileID: 11400000, guid: 5cbab712fb8b5a0449b014d0699bcae9, type: 2}

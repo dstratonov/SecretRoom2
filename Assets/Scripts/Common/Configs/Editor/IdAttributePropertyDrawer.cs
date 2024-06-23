@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Common.Configs;
 using JetBrains.Annotations;
@@ -9,16 +8,12 @@ using UnityEngine;
 
 namespace Common.Editor
 {
-    public static class GuiContentContainer
-    {
-        public static readonly Dictionary<IdsConfig, GUIContent[]> GuiContents = new();
-    }
-    
     [UsedImplicitly]
     public abstract class IdAttributePropertyDrawer<TAttribute, TConfig> : OdinAttributeDrawer<TAttribute> 
         where TAttribute : Attribute
         where TConfig : IdsConfig
     {
+        private GUIContent[] _guiContents;
         
         public override bool CanDrawTypeFilter(Type type) =>
             type == typeof(string);
@@ -36,8 +31,7 @@ namespace Common.Editor
             string configPath = AssetDatabase.GUIDToAssetPath(idsConfig[0]);
             var config = AssetDatabase.LoadAssetAtPath<TConfig>(configPath);
 
-            GuiContentContainer.GuiContents.TryAdd(config, null);
-            GuiContentContainer.GuiContents[config] ??= new[] { new GUIContent("None") }
+            _guiContents ??= new[] { new GUIContent("None") }
                 .Union(config.ids.Select(name => new GUIContent(name))).ToArray();
 
             EditorGUILayout.BeginHorizontal();
@@ -48,7 +42,7 @@ namespace Common.Editor
             }
 
             int index = Array.IndexOf(config.ids, Property.ValueEntry.WeakSmartValue as string) + 1;
-            index = EditorGUILayout.Popup(index, GuiContentContainer.GuiContents[config]) - 1;
+            index = EditorGUILayout.Popup(index, _guiContents) - 1;
             Property.ValueEntry.WeakSmartValue = index == -1 ? string.Empty : config.ids[index];
             EditorGUILayout.EndHorizontal();
         }

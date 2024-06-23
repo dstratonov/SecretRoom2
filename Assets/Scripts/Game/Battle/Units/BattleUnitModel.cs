@@ -10,14 +10,13 @@ namespace Game.Battle.Units
     public class BattleUnitModel
     {
         private readonly UnitSystemContainer _systems = new();
-        private UnitConfig _unitConfig;
 
-        public string Id => _unitConfig.id;
+        public string Id { get; }
         public Team Team { get; private set; }
 
-        public BattleUnitModel(UnitConfig config)
+        public BattleUnitModel(string id)
         {
-            _unitConfig = config;
+            Id = id;
         }
 
         public void AddSystem(UnitSystem systemModel) =>

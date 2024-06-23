@@ -1,48 +1,38 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Common.Reactive;
+using Game.Battle.Stats;
 
 namespace Game.Battle.Units.Systems.Stats
 {
-    public abstract class StatSystem : UnitSystem
-    {
-        public event Action<ReactiveValueUpdatedEventArgs> StatChanged;
+    public class StatsSystem : UnitSystem
+    {  
+        private readonly Dictionary<Stat, ReactiveValue> _stats = new();
 
-        public float Max => Value.Max;
-
-        protected ReactiveValue Value { get; }
-
-        protected StatSystem(float initialValue)
+        public StatsSystem(Dictionary<Stat, ReactiveValue> stats)
         {
-            Value = new ReactiveValue(initialValue);
-            Value.Set(initialValue);
+            _stats = stats;
+        }
+        
+        public StatsSystem(IReadOnlyDictionary<Stat, int> stats)
+        {
+            FillStats(stats);
+        }
+        
+        private void FillStats(IReadOnlyDictionary<Stat, int> stats)
+        {
+            foreach (KeyValuePair<Stat,int> keyValueStat in stats)
+            {
+                _stats.Add(keyValueStat.Key, new ReactiveValue(keyValueStat.Value));
+            }
         }
 
-        public float GetPercentage() =>
-            Value.Current / Value.Max;
-
-        public void Increase(float amount) =>
-            Value.Add(amount);
-
-        public void Reduce(float amount) =>
-            Value.Remove(amount);
-
-        protected override void OnDispose()
+        public ReactiveValue GetStat(Stat stat)
         {
-            base.OnDispose();
-
-            Value.Updated -= OnStatUpdated;
+            _stats.TryAdd(stat, new ReactiveValue());
+            return _stats[stat];
         }
 
-        protected override void OnInitialize()
-        {
-            base.OnInitialize();
-
-            Value.Updated += OnStatUpdated;
-        }
-
-        private void OnStatUpdated(ReactiveValueUpdatedEventArgs args)
-        {
-            StatChanged?.Invoke(args);
-        }
+        public float GetStatValue(Stat stat) =>
+            GetStat(stat).Current;
     }
 }

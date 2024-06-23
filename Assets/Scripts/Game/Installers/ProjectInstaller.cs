@@ -1,7 +1,7 @@
 ﻿using Common.Events;
 using Game.Abilities;
-using Game.Battle.Abilities;
 using Game.Input;
+using Game.Models;
 using UnityEngine;
 using Zenject;
 
@@ -13,6 +13,7 @@ namespace Game.Installers
         
         public override void InstallBindings()
         {
+            Container.Bind<GameModel>().AsSingle();
             Container.Bind<EventBus>().AsSingle();
             Container.Bind<InputService>().AsSingle();
             

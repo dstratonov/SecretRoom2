@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Game.Battle.Abilities;
+using Game.Models;
 
 namespace Game.Battle.Configs
 {
@@ -9,7 +11,7 @@ namespace Game.Battle.Configs
         [AbilityId]
         public string[] abilities;
 
-        public int energy;
-        public int health;
+        public List<StatModel> rawStats;
+        public List<StatModel> statMultipliers;
     }
 }

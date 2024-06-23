@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: UnitIdsConfig
   m_EditorClassIdentifier: 
   ids:
-  - 0_Ice_Cube
-  - 1_Lava_Beast
-  - 2_Hungry_Flowey
+  - 0_The_Void
+  - 1_Ice_Cube
+  - 2_Lava_Beast
+  - 3_Hungry_Flowey
