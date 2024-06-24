@@ -32,7 +32,7 @@ MonoBehaviour:
       Data: 1|Game.Battle.Abilities.Mechanics.Data.DamageMechanicData, Assembly-CSharp
     - Name: selection
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: flatAmount
       Entry: 3
       Data: 5
@@ -67,5 +67,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
   id: Ability_Id_0
+  animTrigger: attack0
   energyCost: 2
   selection: 0
