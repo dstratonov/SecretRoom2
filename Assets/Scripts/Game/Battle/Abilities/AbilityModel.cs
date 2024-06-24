@@ -9,7 +9,7 @@ namespace Game.Battle.Abilities
     {
         public string Id => _data.id;
         
-        private readonly AbilityBattleConfig _data;
+        public readonly AbilityBattleConfig _data;
         
         public AbilityModel(AbilityBattleConfig data)
         {

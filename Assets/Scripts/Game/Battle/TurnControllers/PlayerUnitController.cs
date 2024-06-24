@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using Game.Battle.Abilities;
+using Game.Battle.Models;
+using Game.Battle.SubModules.AbilityExecution;
 using Game.Battle.Units.Systems.Abilities;
 using Game.Input;
 using UnityEngine;
@@ -9,16 +12,17 @@ namespace Game.Battle.TurnControllers
     public class PlayerUnitController : UnitController
     {
         private readonly InputService _inputService;
-
+        private readonly AbilityExecutionSubModule _abilityExecutionSubModule;
         private bool _hasAbilities = true;
         private int _selectedAbilityIndex;
         private IReadOnlyList<string> _unitAbilities;
 
         private InputActions.BattleActions BattleActions => _inputService.BattleActions;
 
-        public PlayerUnitController(InputService inputService)
+        public PlayerUnitController(InputService inputService, AbilityExecutionSubModule abilityExecutionSubModule)
         {
             _inputService = inputService;
+            _abilityExecutionSubModule = abilityExecutionSubModule;
         }
 
         protected override void OnActivate()
@@ -82,11 +86,20 @@ namespace Game.Battle.TurnControllers
 
         private void SelectAbility()
         {
+            
+        }
+
+        private void FinishTurnWithArgs(AbilityInvokeArgs args)
+        {
+            _abilityExecutionSubModule.OnCastEnded -= FinishTurnWithArgs;
+            FinishTurn();
         }
 
         private void OnAbilityPerformed(InputAction.CallbackContext context)
         {
-            FinishTurn();
+            BattleActions.Disable();
+            _abilityExecutionSubModule.OnCastEnded += FinishTurnWithArgs;
+            _abilityExecutionSubModule.CastAbility(_unitAbilities[_selectedAbilityIndex], UnitModel, null);
         }
     }
 }

@@ -2545,6 +2545,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit_Dummy_Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6199003968940645684, guid: 456013aafeb3a45479d625ea40ce3abe,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 7781475039560144053}
     - target: {fileID: 6702288458112760501, guid: 456013aafeb3a45479d625ea40ce3abe,
         type: 3}
       propertyPath: m_RootOrder
@@ -2612,6 +2617,12 @@ PrefabInstance:
 --- !u!4 &6260419887419915384 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3649506681199302963, guid: 456013aafeb3a45479d625ea40ce3abe,
+    type: 3}
+  m_PrefabInstance: {fileID: 7225141914544694603}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7781475039560144053 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1133084221006803454, guid: 456013aafeb3a45479d625ea40ce3abe,
     type: 3}
   m_PrefabInstance: {fileID: 7225141914544694603}
   m_PrefabAsset: {fileID: 0}

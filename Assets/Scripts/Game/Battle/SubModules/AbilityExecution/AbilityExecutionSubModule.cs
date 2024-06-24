@@ -9,6 +9,7 @@ using Game.Battle.Models;
 using Game.Battle.Stats;
 using Game.Battle.Units;
 using Game.Battle.Units.Systems.Abilities;
+using Game.Battle.Units.Systems.Pawn;
 using Game.Battle.Units.Systems.Stats;
 
 namespace Game.Battle.SubModules.AbilityExecution
@@ -21,6 +22,8 @@ namespace Game.Battle.SubModules.AbilityExecution
         public event Action<AbilityInvokeArgs> OnCastStarted;
 
         private BattleModel _model;
+
+        private AbilityInvokeArgs _currentAbilityArgs;
         
         public AbilityExecutionSubModule(MechanicsFactory mechanicsFactory)
         {
@@ -41,30 +44,54 @@ namespace Game.Battle.SubModules.AbilityExecution
                 return;
             }
 
+            // ReactiveValue casterEnergy = caster
+            //     .GetSystem<StatsSystem>()
+            //     .GetStat(Stat.EN);
+            
+            // if (!ability.CanUse(casterEnergy.Current))
+            // {
+            //     return;
+            // }
+
+            // caster.GetSystem<PawnSystem>().Pawn.AnimationFinished +=
+
             var castArgs = new AbilityInvokeArgs
             {
                 ability = ability,
                 caster = caster,
                 target = target,
             };
+
+            _currentAbilityArgs = castArgs;
+
+            OnStart();
+
             
-            OnCastStarted?.Invoke(castArgs);
+        }
 
-            Invoke(ability, caster, target);
+        private void triggerAnimation()
+        {
+            var animationTriggerKey = _currentAbilityArgs.ability._data.animTrigger;
+            var animator = _currentAbilityArgs.caster.GetSystem<PawnSystem>().Pawn.animator;
+            animator.SetTrigger(animationTriggerKey);
+        }
 
-            OnCastEnded?.Invoke(castArgs);
+        private void OnStart()
+        {
+            _currentAbilityArgs.caster.GetSystem<PawnSystem>().Pawn.onAnimationFinished += OnEnd;
+            OnCastStarted?.Invoke(_currentAbilityArgs);
+            triggerAnimation();
+        }
+
+        private void OnEnd()
+        {
+            _currentAbilityArgs.caster.GetSystem<PawnSystem>().Pawn.onAnimationFinished -= OnEnd;
+            Invoke(_currentAbilityArgs.ability, _currentAbilityArgs.caster, _currentAbilityArgs.target);
+            OnCastEnded?.Invoke(_currentAbilityArgs);
         }
 
         private void Invoke(AbilityModel ability, BattleUnitModel caster, BattleUnitModel target)
         {
-            ReactiveValue casterEnergy = caster
-                .GetSystem<StatsSystem>()
-                .GetStat(Stat.EN);
-            
-            if (!ability.CanUse(casterEnergy.Current))
-            {
-                return;
-            }
 
             List<BattleUnitModel> mechanicTargets = new();
             
@@ -80,7 +107,7 @@ namespace Game.Battle.SubModules.AbilityExecution
                 mechanic.Invoke(mechanicTargets);
             }
 
-            casterEnergy.Remove(ability.GetCost());
+            // casterEnergy.Remove(ability.GetCost());
         }
         
         private void SetMechanicTargets(BattleUnitModel selectedUnit, BattleUnitModel caster, MechanicSelection selection,

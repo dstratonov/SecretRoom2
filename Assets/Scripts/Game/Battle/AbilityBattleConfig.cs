@@ -10,6 +10,7 @@ namespace Game.Battle
     public class AbilityBattleConfig : SerializedScriptableObject
     {
         [AbilityId] public string id;
+        public string animTrigger;
         public int energyCost;
         public AbilitySelection selection;
         [OdinSerialize] public MechanicData[] mechanics;
