@@ -24,6 +24,8 @@ namespace Game.Battle.SubModules.AbilityExecution
         private BattleModel _model;
 
         private AbilityInvokeArgs _currentAbilityArgs;
+
+        private AnimationExecutor _animExecutor;
         
         public AbilityExecutionSubModule(MechanicsFactory mechanicsFactory)
         {
@@ -64,30 +66,27 @@ namespace Game.Battle.SubModules.AbilityExecution
 
             _currentAbilityArgs = castArgs;
 
+            _animExecutor = new AnimationExecutor(_currentAbilityArgs);
+            _animExecutor.AnimationFinished += OnEnd;
+
             OnStart();
 
             
         }
 
-        private void triggerAnimation()
-        {
-            var animationTriggerKey = _currentAbilityArgs.ability._data.animTrigger;
-            var animator = _currentAbilityArgs.caster.GetSystem<PawnSystem>().Pawn.animator;
-            animator.SetTrigger(animationTriggerKey);
-        }
-
         private void OnStart()
         {
-            _currentAbilityArgs.caster.GetSystem<PawnSystem>().Pawn.onAnimationFinished += OnEnd;
             OnCastStarted?.Invoke(_currentAbilityArgs);
-            triggerAnimation();
+            _animExecutor.PlayAnimation();
         }
 
         private void OnEnd()
         {
-            _currentAbilityArgs.caster.GetSystem<PawnSystem>().Pawn.onAnimationFinished -= OnEnd;
             Invoke(_currentAbilityArgs.ability, _currentAbilityArgs.caster, _currentAbilityArgs.target);
             OnCastEnded?.Invoke(_currentAbilityArgs);
+
+            _animExecutor.AnimationFinished -= OnEnd;
+            _animExecutor = null;
         }
 
         private void Invoke(AbilityModel ability, BattleUnitModel caster, BattleUnitModel target)
