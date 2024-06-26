@@ -5,6 +5,12 @@ namespace Common.UI
     public class BaseView : MonoBehaviour
     {
         [SerializeField] private GameObject _content;
+        [SerializeField] private bool _isTransparent;
+        [SerializeField] private bool _isReturnable;
+        
+        public bool IsTransparent => _isTransparent;
+        public bool IsReturnable => _isReturnable;
+        public bool IsContentEnabled => _content.activeSelf;
 
         public void Activate()
         {
@@ -28,10 +34,6 @@ namespace Common.UI
         
         public void Close()
         {
-            Deactivate();
-
-            //on closed event
-            
             OnClose();
         }
 

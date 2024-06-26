@@ -21,6 +21,8 @@ namespace Common.UI
         {
             subContainer.Bind<ViewService>().AsSingle();
             subContainer.Bind<CanvasProvider>().AsSingle();
+            subContainer.Bind<ViewProvider>().AsSingle();
+            subContainer.Bind<ViewFactory>().AsSingle();
             
             subContainer.BindInstance(_viewConfig);
         }

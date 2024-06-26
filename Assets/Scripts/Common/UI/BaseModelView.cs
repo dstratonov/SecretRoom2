@@ -20,7 +20,8 @@
 
         protected override void OnClose()
         {
-            ViewModel.root.CloseView(this);
+            //todo close
+            // ViewModel.root.CloseView(this);
         }
     }
 }

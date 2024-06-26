@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common.Loggers;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
-using Zenject;
 
 namespace Common.UI.Layers
 {
@@ -12,78 +10,105 @@ namespace Common.UI.Layers
     {
         [SerializeField] private UILayer _layer;
         [SerializeField] private Canvas _root;
+        
         private readonly List<BaseView> _views = new();
 
         public event Action<BaseView> ViewOpened;
         public Canvas Canvas => _root;
 
         public UILayer Layer => _layer;
-
-        public void CloseView(BaseView view = null)
-        {
-            if (view == null)
-            {
-                view = _views[^1];
-            }
-
-            view.Deactivate();
-            _views.Remove(view);
-            Destroy(view.gameObject);
-        }
-
-        public async UniTask<TView> InstantiateView<TView, TViewModel>(TViewModel model)
+        
+        public void ShowView<TView, TViewModel>(TView view, TViewModel model) 
             where TView : BaseModelView<TViewModel>
             where TViewModel : ViewModel
         {
-            // var view = await _viewFactory.CreateView<TView>();
-
-            // if (view == null)
-            // {
-                // this.Error($"[ViewLayerRoot]: Incorrect view for instantiating {nameof(TView)}");
-                // return await UniTask.FromResult<TView>(null);
-            // }
-
-            TView view = default;
-            return ShowModelView(view, model);
-        }
-
-        public void MatchWithCamera(Camera cam)
-        {
-            if (_root.renderMode != RenderMode.WorldSpace)
+            BaseView previousView = _views[^1];
+            
+            if (previousView != null)
             {
-                return;
+                previousView.Deactivate();
+                
+                if (view.IsTransparent)
+                {
+                    previousView.SetContentEnabled(false);
+                }
             }
-
-            var rect = _root.GetComponent<RectTransform>();
-
-            float height = cam.orthographicSize * 2;
-            Vector2 sizeDelta = rect.sizeDelta;
-
-            float x = height * cam.aspect / sizeDelta.x;
-            float y = height / sizeDelta.y;
-
-            transform.localScale = new Vector3(x, y, 1);
-        }
-
-        public TView ShowModelView<TView, TViewModel>(TView view, TViewModel model)
-            where TView : BaseModelView<TViewModel>
-            where TViewModel : ViewModel
-        {
+            
+            view.SetContentEnabled(false);
             model.root = this;
             view.Initialize(model);
+            view.SetContentEnabled();
             view.Activate();
-
-            if (_views[^1] != null)
-            {
-                //todo check if view should hide content?
-                _views[^1].SetContentEnabled(false);
-            }
-
+            
             _views.Add(view);
+            
+            TryCloseViewsAbove(view);
+        }
+        
+        // public bool CloseView(BaseView screen)
+        // {
+        //     if (_views[^1] == screen)
+        //     {
+        //         if (_views.Count > 1)
+        //         {
+        //             // back for last screen
+        //             ScreenDeActivateCurrent();
+        //             ScreenRemove();
+        //             ScreenShow(_screens.Last());
+        //             return true;
+        //         }
+        //         
+        //         if (_views.Count == 1)
+        //         {
+        //             ScreenDeActivateCurrent();
+        //             ScreenRemove();
+        //             return true;
+        //         }
+        //     }
+        //     
+        //     return false;
+        // }
+        
+        private void TryCloseViewsAbove(BaseView screen)
+        {
+            if (!screen.IsReturnable && !screen.IsTransparent)
+            {
+                int screensToRemove = _views.Count - 1;
 
-            ViewOpened?.Invoke(view);
+                for (var i = 0; i < screensToRemove; i++)
+                {
+                    RemoveView(_views[0]);
+                }
+            }
+        }
+        
+        private void RemoveView(BaseView view = null)
+        {
+            if (_views.Count > 0)
+            {
+                if (view == null)
+                {
+                    view = _views[^1];
+                }
+                
+                if (view == null)
+                {
+                    return;
+                }
 
-            return view;
+                if (view.IsContentEnabled)
+                {
+                    view.SetContentEnabled(false);
+                }
+
+                view.Close();
+                _views.Remove(view);
+                Destroy(view.gameObject);
+            }
+            else
+            {
+                this.Error($"RemoveView: no instantiated views in layer {_layer}");
+            }
         }
     }
 }

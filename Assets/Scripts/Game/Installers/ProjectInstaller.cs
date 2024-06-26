@@ -1,4 +1,5 @@
-﻿using Common.Cameras;
+﻿using Common.AssetManagement;
+using Common.Cameras;
 using Common.Events;
 using Game.Abilities;
 using Game.Input;
@@ -18,6 +19,7 @@ namespace Game.Installers
             Container.Bind<EventBus>().AsSingle();
             Container.Bind<InputService>().AsSingle();
             Container.Bind<CameraService>().AsSingle();
+            Container.Bind<AssetsProvider>().AsSingle();
                 
             Container.BindInstance(_abilityContainerConfig);
         }
