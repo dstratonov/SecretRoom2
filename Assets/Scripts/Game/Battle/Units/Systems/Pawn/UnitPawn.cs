@@ -17,6 +17,8 @@ namespace Game.Battle.Units.Systems.Pawn
         private Vector3 _defaultPosition;
         private Quaternion _defaultRotation;
 
+        [SerializeField] private GameObject _selectionBox;
+
         public Dictionary<string, Vector3> posOffsets = new Dictionary<string, Vector3>
         {
             {"attack0" , new Vector3(0.0f, 0.0f, 2.0f)},
@@ -57,6 +59,16 @@ namespace Game.Battle.Units.Systems.Pawn
         Vector3 upVector = targetTransform.up;
         Vector3 forwardVector = -targetTransform.forward;
         return Quaternion.LookRotation(forwardVector, upVector);
+    }
+
+    public void Select()
+    {
+        _selectionBox.SetActive(true);
+    }
+    
+    public void Deselect()
+    {
+         _selectionBox.SetActive(false);
     }
 
     private Vector3 BuildPosition(Transform targetTransform, string animationKey)

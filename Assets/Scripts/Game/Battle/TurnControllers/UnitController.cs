@@ -1,5 +1,6 @@
 ﻿using System;
 using Game.Battle.Units;
+using Zenject;
 
 namespace Game.Battle.TurnControllers
 {
@@ -8,6 +9,9 @@ namespace Game.Battle.TurnControllers
         public event Action TurnFinished;
         
         protected BattleUnitModel UnitModel { get; private set; }
+
+        //TODO OLEG DO SOMETHING
+        [Inject] public Battle battle;
         
         public void SetUnit(BattleUnitModel unitModel)
         {
