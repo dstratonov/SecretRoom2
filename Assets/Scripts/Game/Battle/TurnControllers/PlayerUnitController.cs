@@ -99,7 +99,7 @@ namespace Game.Battle.TurnControllers
         {
             BattleActions.Disable();
             _abilityExecutionSubModule.OnCastEnded += FinishTurnWithArgs;
-            _abilityExecutionSubModule.CastAbility(_unitAbilities[_selectedAbilityIndex], UnitModel, null);
+            _abilityExecutionSubModule.CastAbility(_unitAbilities[_selectedAbilityIndex], UnitModel, UnitModel);
         }
     }
 }

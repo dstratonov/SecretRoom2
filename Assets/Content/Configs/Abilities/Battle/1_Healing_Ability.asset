@@ -58,6 +58,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
   id: Ability_Id_1
-  animTrigger: Skill_A_Root
+  animTrigger: attack1
   energyCost: 5
-  selection: 1
+  selection: 0
