@@ -8,30 +8,22 @@ using UnityEngine;
 namespace Common.Configs.Editor
 {
     [UsedImplicitly]
-    public abstract class IdAttributePropertyDrawer<TAttribute, TConfig> : OdinAttributeDrawer<TAttribute> 
+    public abstract class IdAttributePropertyDrawer<TAttribute> : OdinAttributeDrawer<TAttribute> 
         where TAttribute : Attribute
-        where TConfig : IdsConfig
     {
         private GUIContent[] _guiContents;
         
         public override bool CanDrawTypeFilter(Type type) =>
             type == typeof(string);
 
+        protected abstract string[] GetIds();
+        
         protected override void DrawPropertyLayout(GUIContent label)
         {
-            string configName = typeof(TConfig).Name;
-            string[] idsConfig = AssetDatabase.FindAssets($"t:{configName}");
-
-            if (idsConfig.Length == 0)
-            {
-                return;
-            }
-
-            string configPath = AssetDatabase.GUIDToAssetPath(idsConfig[0]);
-            var config = AssetDatabase.LoadAssetAtPath<TConfig>(configPath);
+            string[] ids = GetIds();
 
             _guiContents ??= new[] { new GUIContent("None") }
-                .Union(config.ids.Select(name => new GUIContent(name))).ToArray();
+                .Union(ids.Select(name => new GUIContent(name))).ToArray();
 
             EditorGUILayout.BeginHorizontal();
 
@@ -40,9 +32,9 @@ namespace Common.Configs.Editor
                 EditorGUILayout.PrefixLabel(label);
             }
 
-            int index = Array.IndexOf(config.ids, Property.ValueEntry.WeakSmartValue as string) + 1;
+            int index = Array.IndexOf(ids, Property.ValueEntry.WeakSmartValue as string) + 1;
             index = EditorGUILayout.Popup(index, _guiContents) - 1;
-            Property.ValueEntry.WeakSmartValue = index == -1 ? string.Empty : config.ids[index];
+            Property.ValueEntry.WeakSmartValue = index == -1 ? string.Empty : ids[index];
             EditorGUILayout.EndHorizontal();
         }
     }

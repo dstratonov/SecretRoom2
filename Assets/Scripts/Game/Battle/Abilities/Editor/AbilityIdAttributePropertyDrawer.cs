@@ -4,5 +4,5 @@ using JetBrains.Annotations;
 namespace Game.Battle.Abilities.Editor
 {
     [UsedImplicitly]
-    public class AbilityIdAttributePropertyDrawer : IdAttributePropertyDrawer<AbilityIdAttribute, AbilityIdsConfig> { }
+    public class AbilityIdAttributePropertyDrawer : ConfigIdAttributePropertyDrawer<AbilityIdAttribute, AbilityIdsConfig> { }
 }
