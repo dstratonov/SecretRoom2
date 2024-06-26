@@ -15,8 +15,13 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_Data:
     m_SerializedData: []
-  m_GUID: 6b6986e4a395cc242981ac0305478556
-  m_SerializeEntries: []
+  m_GUID: fbba1365de7df4d45b9e1bb9187151e0
+  m_SerializeEntries:
+  - m_GUID: 86da8ef270664474999fc274789b3a19
+    m_Address: Assets/Content/UI/Prefabs/Battle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 88ec90089cdc59c48a3b6ecd975504db, type: 2}
   m_SchemaSet:

@@ -15,7 +15,7 @@ namespace Common.UI
             _viewFactory = viewFactory;
         }
         
-        public async UniTask<TView> CreateView<TView, TViewModel>(TViewModel model, UILayer layer)
+        public async UniTask<TView> ShowView<TView, TViewModel>(UILayer layer, TViewModel model)
             where TView : BaseModelView<TViewModel>
             where TViewModel : ViewModel
         {
@@ -29,8 +29,8 @@ namespace Common.UI
             return view;
         }
         
-        public async UniTask<TView> CreateView<TView>(UILayer layer) where TView : BaseModelView => 
-            await CreateView<TView, ViewModel>(ViewModel.Empty, layer);
+        public async UniTask<TView> ShowView<TView>(UILayer layer) where TView : BaseModelView => 
+            await ShowView<TView, ViewModel>(layer, ViewModel.Empty);
         
         public void CloseView(BaseView view)
         {

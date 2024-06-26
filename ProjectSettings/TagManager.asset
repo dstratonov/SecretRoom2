@@ -45,3 +45,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Rear
+    uniqueID: 2854473177
+    locked: 0
+  - name: Game
+    uniqueID: 4285711245
+    locked: 0
+  - name: HUD
+    uniqueID: 727204225
+    locked: 0
+  - name: Window
+    uniqueID: 54179949
+    locked: 0
+  - name: Popup
+    uniqueID: 4103137751
+    locked: 0

@@ -13,7 +13,7 @@ namespace Common.UI
     {
         [SerializeField] private List<ViewEntry> _views;
 
-        private Dictionary<string, AssetReference> _viewsDictionary;
+        private Dictionary<string, AssetReferenceGameObject> _viewsDictionary;
 
         void ISerializationCallbackReceiver.OnBeforeSerialize() { }
 
@@ -25,6 +25,7 @@ namespace Common.UI
         public AssetReference GetViewReference(string id) =>
             _viewsDictionary.GetValueOrDefault(id);
 
+#if UNITY_EDITOR
         [Button]
         private void ValidateAssets()
         {
@@ -40,13 +41,14 @@ namespace Common.UI
                 Debug.LogError($"View validation error for ID: {viewEntry.id}");
             }
         }
+#endif
 
         [Serializable]
         private class ViewEntry
         {
             [ViewId]
             public string id;
-            public AssetReference viewReference;
+            public AssetReferenceGameObject viewReference;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Common.AssetManagement;
 using Game.Battle.Configs;
 using Game.Models;
 using Game.Units;
@@ -15,9 +16,12 @@ namespace Game.Battle
         
         [Inject] private GameModel _gameModel;
         [Inject] private Battle _battle;
-
+        [Inject] private AssetsProvider _assetsProvider;
+        
         private void Start()
         {
+            _assetsProvider.Initialize();
+            
             var playerStats = new List<StatModel>();
 
             foreach (StatModel statModel in _playerUnitConfig.battleData.rawStats)

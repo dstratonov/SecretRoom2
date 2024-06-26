@@ -8,23 +8,52 @@ namespace Game.Battle.Units.Systems.Pawn
 {
     public class UnitPawn : SerializedMonoBehaviour
     {
+        public Animator animator;
+
+        public Dictionary<string, Vector3> posOffsets = new()
+        {
+            { "attack0", new Vector3(0.0f, 0.0f, 2.0f) },
+            { "attack1", new Vector3(0.0f, 0.0f, 2.0f) },
+        };
+        
         [SerializeField] private CinemachineVirtualCamera _playerUnitCamera;
 
-        public event Action onAnimationFinished;
-
-        public Animator animator;
+        [SerializeField] private GameObject _selectionBox;
 
         private Vector3 _defaultPosition;
         private Quaternion _defaultRotation;
 
-        [SerializeField] private GameObject _selectionBox;
+        public event Action OnAnimationFinished;
 
-        public Dictionary<string, Vector3> posOffsets = new Dictionary<string, Vector3>
+        public CinemachineVirtualCamera VirtualCamera => _playerUnitCamera;
+
+        public void AnimationFinished()
         {
-            {"attack0" , new Vector3(0.0f, 0.0f, 2.0f)},
-            {"attack1" , new Vector3(0.0f, 0.0f, 2.0f)}
-        };
-        
+            OnAnimationFinished?.Invoke();
+        }
+
+        public void Deselect()
+        {
+            _selectionBox.SetActive(false);
+        }
+
+        public void GoToTarget(Transform targetTransform, string animationKey)
+        {
+            transform.position = BuildPosition(targetTransform, animationKey);
+            transform.rotation = BuildRotation(targetTransform);
+        }
+
+        public void ResetToDefaultTransform()
+        {
+            transform.position = _defaultPosition;
+            transform.rotation = _defaultRotation;
+        }
+
+        public void Select()
+        {
+            _selectionBox.SetActive(true);
+        }
+
         public void SetDefaultPosition(Vector3 position)
         {
             _defaultPosition = position;
@@ -37,50 +66,22 @@ namespace Game.Battle.Units.Systems.Pawn
             transform.rotation = _defaultRotation;
         }
 
-        public void ResetToDefaultTransform()
+        private Vector3 BuildPosition(Transform targetTransform, string animationKey)
         {
-            transform.position = _defaultPosition;
-            transform.rotation = _defaultRotation;
-        }
+            Vector3 animationOffset = posOffsets[animationKey];
+            Vector3 upVector = targetTransform.up;
+            Vector3 forwardVector = targetTransform.forward;
+            Vector3 rightVector = targetTransform.right;
 
-        public void GoToTarget(Transform targetTransform, string animationKey)
-        {
-            transform.position = BuildPosition(targetTransform, animationKey);
-            transform.rotation = BuildRotation(targetTransform);
-        }
-
-        public void AnimationFinished()
-        {
-            onAnimationFinished?.Invoke();
+            return targetTransform.position + rightVector * animationOffset.x + upVector * animationOffset.y +
+                   forwardVector * animationOffset.z;
         }
 
         private Quaternion BuildRotation(Transform targetTransform)
-    {
-        Vector3 upVector = targetTransform.up;
-        Vector3 forwardVector = -targetTransform.forward;
-        return Quaternion.LookRotation(forwardVector, upVector);
-    }
-
-    public void Select()
-    {
-        _selectionBox.SetActive(true);
-    }
-    
-    public void Deselect()
-    {
-         _selectionBox.SetActive(false);
-    }
-
-    private Vector3 BuildPosition(Transform targetTransform, string animationKey)
-    {
-        var animationOffset = posOffsets[animationKey];
-        Vector3 upVector = targetTransform.up;
-        Vector3 forwardVector = targetTransform.forward;
-        Vector3 rightVector = targetTransform.right;
-
-        return targetTransform.position + rightVector * animationOffset.x + upVector * animationOffset.y + forwardVector * animationOffset.z;
-    }
-
-        public CinemachineVirtualCamera VirtualCamera => _playerUnitCamera;
+        {
+            Vector3 upVector = targetTransform.up;
+            Vector3 forwardVector = -targetTransform.forward;
+            return Quaternion.LookRotation(forwardVector, upVector);
+        }
     }
 }

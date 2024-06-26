@@ -48,7 +48,7 @@ namespace Common.AssetManagement
             {
                 return completedHandle.Result as T;
             }
-
+            
             AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(assetReference);
             handle.Completed += h => { _completedCache[assetReference] = h; };
 

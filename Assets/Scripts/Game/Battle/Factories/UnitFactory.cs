@@ -3,7 +3,6 @@ using System.Linq;
 using Common.Reactive;
 using Game.Abilities;
 using Game.Battle.Abilities;
-using Game.Battle.Configs;
 using Game.Battle.Stats;
 using Game.Battle.Units;
 using Game.Battle.Units.Systems.Abilities;
@@ -31,7 +30,7 @@ namespace Game.Battle.Factories
         {
             var pawn = _instantiator.InstantiatePrefabForComponent<UnitPawn>(viewData.unitPawn);
 
-            var unitModel = new BattleUnitModel(id);
+            var unitModel = new BattleUnitModel(id, viewData);
 
             unitModel.AddSystem(new PawnSystem(pawn));
             unitModel.AddSystem(new StatsSystem(stats));

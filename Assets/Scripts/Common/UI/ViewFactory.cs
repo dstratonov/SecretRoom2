@@ -23,7 +23,7 @@ namespace Common.UI
             
             if (viewPrefab != null)
             {
-                var view = _instantiator.InstantiatePrefabForComponent<TView>(viewPrefab.gameObject, parent);
+                var view = _instantiator.InstantiatePrefabForComponent<TView>(viewPrefab, parent);
                 return view;
             }
            

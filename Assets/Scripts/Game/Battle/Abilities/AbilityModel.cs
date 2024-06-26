@@ -8,8 +8,9 @@ namespace Game.Battle.Abilities
     public class AbilityModel
     {
         public string Id => _data.id;
+        public AbilityBattleConfig Data => _data;
         
-        public readonly AbilityBattleConfig _data;
+        private readonly AbilityBattleConfig _data;
         
         public AbilityModel(AbilityBattleConfig data)
         {

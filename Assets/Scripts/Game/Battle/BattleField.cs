@@ -12,11 +12,11 @@ namespace Game.Battle
         [SerializeField] private Transform _fieldCenter;
         [SerializeField] private float _distanceBetweenTeams;
         [SerializeField] private float _distanceBetweenCharacters;
+        [SerializeField] private CinemachineVirtualCamera _targetCamera;
+        [SerializeField] private CinemachineTargetGroup _targetGroup;
 
-        [SerializeField] public CinemachineVirtualCamera _targetCamera;
-
-        [SerializeField] public CinemachineTargetGroup _targetGroup;
-
+        public CinemachineVirtualCamera TargetCamera => _targetCamera;
+        public CinemachineTargetGroup TargetGroup => _targetGroup;
 
         public void SetTeam(TeamModel teamModel)
         {

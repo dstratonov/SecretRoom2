@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Common.UI.Layers
 {
-    [RequireComponent(typeof(Canvas))]
     public class ViewLayerRoot : MonoBehaviour
     {
         [SerializeField] private UILayer _layer;
@@ -36,10 +35,9 @@ namespace Common.UI.Layers
             where TView : BaseModelView<TViewModel>
             where TViewModel : ViewModel
         {
-            BaseView previousView = _views[^1];
-
-            if (previousView != null)
+            if (_views.Count > 0)
             {
+                BaseView previousView = _views[^1];
                 previousView.Deactivate();
 
                 if (view.IsTransparent)

@@ -16,7 +16,6 @@ namespace Game.UI
 
         private int _selectedId;
 
-        private Vector2 defaultSize = new Vector3(1.0f, 1.0f, 1.0f);
         private Vector2 offset;
         private readonly List<SkillWrapper> skills = new();
 
@@ -25,17 +24,13 @@ namespace Game.UI
             Vector2 buttonPos = startPosition;
             for (var i = 0; i < 10; i++)
             {
-                skills.Add(createNewButton(buttonPos, "skill: " + i));
+                skills.Add(CreateNewButton(buttonPos, "skill: " + i));
                 buttonPos.y -= distanceBetween;
             }
 
             UpdateOffset();
-            // var newButton = Instantiate(skillItem, this.gameObject.transform);
-            // newButton.SetPosition(startPosition);
-            // updateSizes();
         }
 
-        // Update is called once per frame
         private void Update()
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.Z))
@@ -50,12 +45,13 @@ namespace Game.UI
 
             _selectedId = Math.Min(skills.Count - 1, _selectedId);
             _selectedId = Math.Max(0, _selectedId);
+            
             UpdateOffset();
             UpdateSizes();
             UpdatePositions();
         }
 
-        private SkillWrapper createNewButton(Vector2 buttonPosition, string buttonText)
+        private SkillWrapper CreateNewButton(Vector2 buttonPosition, string buttonText)
         {
             SkillWrapper newButton = Instantiate(skillItem, gameObject.transform);
             newButton.SetPosition(buttonPosition);

@@ -14,17 +14,10 @@ namespace Common.UI
         public void Initialize(TModel model)
         {
             ViewModel = model;
-            transform.SetParent(model.root.transform);
 
             OnOpen();
         }
         
         protected virtual void OnOpen() { }
-
-        protected override void OnPreClose()
-        {
-            //todo close
-            // ViewModel.root.CloseView(this);
-        }
     }
 }

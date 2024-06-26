@@ -3,6 +3,7 @@ using Game.Battle.Factories;
 using Game.Battle.SubModules;
 using Game.Battle.SubModules.AbilityExecution;
 using Game.Battle.SubModules.BattleCineMachine;
+using Game.Battle.SubModules.HUD;
 using Game.Battle.TurnControllers;
 using UnityEngine;
 using Zenject;
@@ -30,6 +31,7 @@ namespace Game.Battle
 
         private void BindSubModules()
         {
+            Container.BindInterfacesAndSelfTo<BattleHUDSubModule>().AsSingle();
             AbilityExecutionServiceInstaller.Install(Container);
             BattleCineMachineSubModuleInstaller.Install(Container);
         }

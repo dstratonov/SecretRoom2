@@ -97,8 +97,10 @@ namespace Common.UI
                 return null;
             }
 
-            var view = await _assetsProvider.Load<TView>(viewReference);
+            var viewGameObject = await _assetsProvider.Load<GameObject>(viewReference);
 
+            var view = viewGameObject.GetComponent<TView>();
+            
             if (view == null)
             {
                 Debug.LogError($"PreloadScreenInternalAsync: can't load view with ID: {viewId}");
