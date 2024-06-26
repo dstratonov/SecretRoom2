@@ -67,6 +67,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
   id: Ability_Id_0
-  animTrigger: attack0
+  animTrigger: Skill_G_Finishing_Attack_ALL_Root
   energyCost: 2
   selection: 0

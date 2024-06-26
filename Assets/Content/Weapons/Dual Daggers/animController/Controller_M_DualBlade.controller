@@ -81,7 +81,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: attack0
+    m_ConditionEvent: Skill_G_Finishing_Attack_ALL_Root
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2469675912683479975}
@@ -133,13 +133,13 @@ AnimatorController:
   m_Name: Controller_M_DualBlade
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: attack0
+  - m_Name: Skill_G_Finishing_Attack_ALL_Root
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: attack1
+  - m_Name: Skill_A_Root
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -167,7 +167,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: attack1
+    m_ConditionEvent: Skill_A_Root
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2840237486548248682}
@@ -232,8 +232,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1827226128182048838, guid: 525190fbc1ce58f49bc2d8df8f6f0207,
-    type: 3}
+  m_Motion: {fileID: 1827226128182048838, guid: 525190fbc1ce58f49bc2d8df8f6f0207, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

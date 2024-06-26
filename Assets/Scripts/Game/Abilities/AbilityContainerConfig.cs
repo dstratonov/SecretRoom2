@@ -11,6 +11,7 @@ namespace Game.Abilities
     public class AbilityContainerConfig : ScriptableObject, ISerializationCallbackReceiver
     {
         [SerializeField] private AbilityInfo[] _abilitiesInfo;
+        
 
         private Dictionary<string, AbilityInfo> _abilitiesDictionary = new();
 
@@ -36,8 +37,13 @@ namespace Game.Abilities
     public class AbilityInfo
     {
         public AbilityBattleConfig battleConfig;
+
+        public AnimationIdsConfig animationConfig;
         
         [AbilityId]
         public string id;
+
+        [AnimationId]
+        public string animationId;
     }
 }
