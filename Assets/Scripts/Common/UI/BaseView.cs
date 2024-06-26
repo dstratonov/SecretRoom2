@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using Common.UI.Layers;
+using UnityEngine;
+using Zenject;
 
 namespace Common.UI
 {
-    public class BaseView : MonoBehaviour
+    public abstract class BaseView : MonoBehaviour
     {
         [SerializeField] private GameObject _content;
         [SerializeField] private bool _isTransparent;
@@ -12,6 +14,16 @@ namespace Common.UI
         public bool IsReturnable => _isReturnable;
         public bool IsContentEnabled => _content.activeSelf;
 
+        public abstract UILayer Layer { get; }
+        
+        protected ViewService ViewService { get; private set; }
+        
+        [Inject]
+        public void Construct(ViewService viewService)
+        {
+            ViewService = viewService;
+        }
+        
         public void Activate()
         {
             SetContentEnabled();
@@ -32,12 +44,17 @@ namespace Common.UI
             }
         }
         
-        public void Close()
+        public void PreClose()
         {
-            OnClose();
+            OnPreClose();
         }
 
-        protected virtual void OnClose() { }
+        public void Close()
+        {
+            ViewService.CloseView(this);
+        }
+
+        protected virtual void OnPreClose() { }
         protected virtual void OnActivate() { }
         protected virtual void OnDeactivate() { }
     }

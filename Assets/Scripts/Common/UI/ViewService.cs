@@ -1,5 +1,4 @@
-﻿using System;
-using Common.UI.Layers;
+﻿using Common.UI.Layers;
 using Common.UI.Root;
 using Cysharp.Threading.Tasks;
 
@@ -29,8 +28,18 @@ namespace Common.UI
             
             return view;
         }
-
+        
         public async UniTask<TView> CreateView<TView>(UILayer layer) where TView : BaseModelView => 
             await CreateView<TView, ViewModel>(ViewModel.Empty, layer);
+        
+        public void CloseView(BaseView view)
+        {
+            UILayer layer = view.Layer;
+            ViewLayerRoot root = _canvasProvider
+                .GetActiveCanvas()
+                .GetLayer(layer);
+            
+            root.CloseView(view);
+        }
     }
 }

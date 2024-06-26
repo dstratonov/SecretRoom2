@@ -15,12 +15,13 @@ namespace Common.UI
                 .FromSubContainerResolve()
                 .ByMethod(InitializeService)
                 .AsSingle();
+            
+            Container.Bind<CanvasProvider>().AsSingle();
         }
 
         private void InitializeService(DiContainer subContainer)
         {
             subContainer.Bind<ViewService>().AsSingle();
-            subContainer.Bind<CanvasProvider>().AsSingle();
             subContainer.Bind<ViewProvider>().AsSingle();
             subContainer.Bind<ViewFactory>().AsSingle();
             

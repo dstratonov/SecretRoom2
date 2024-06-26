@@ -2,8 +2,11 @@
 
 namespace Game.UI
 {
-    public class BattleHUDView : BaseView 
+    public class BattleHUDView : BaseModelView<BattleHUDView.Model>
     {
-        
+        public class Model : ViewModel
+        {
+            
+        }
     }
 }
