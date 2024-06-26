@@ -28,7 +28,7 @@ public class AnimationExecutor
         _animator.SetTrigger(_animationTriggerKey);
     }
 
-    void OnAnimationFinished()
+    private void OnAnimationFinished()
     {
         _casterPawn.ResetToDefaultTransform();
         AnimationFinished?.Invoke();

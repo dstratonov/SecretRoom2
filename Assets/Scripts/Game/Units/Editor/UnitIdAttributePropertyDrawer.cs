@@ -4,5 +4,5 @@ using JetBrains.Annotations;
 namespace Game.Units.Editor
 {
     [UsedImplicitly]
-    public class UnitIdAttributePropertyDrawer : IdAttributePropertyDrawer<UnitIdAttribute, UnitIdsConfig> { }
+    public class UnitIdAttributePropertyDrawer : ConfigIdAttributePropertyDrawer<UnitIdAttribute, UnitIdsConfig> { }
 }
