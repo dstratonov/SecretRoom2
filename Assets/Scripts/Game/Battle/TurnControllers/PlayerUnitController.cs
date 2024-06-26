@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Common.Events;
 using Game.Battle.Abilities;
+using Game.Battle.Events;
 using Game.Battle.Models;
 using Game.Battle.SubModules.AbilityExecution;
 using Game.Battle.Units;
@@ -28,8 +30,13 @@ namespace Game.Battle.TurnControllers
         private IReadOnlyList<BattleUnitModel> _activeTeam;
         private AbilitySystem _abilitySystem;
 
-        public PlayerUnitController(InputService inputService, AbilityExecutionSubModule abilityExecutionSubModule)
+        private EventBus _eventBus;
+
+
+
+        public PlayerUnitController(InputService inputService, AbilityExecutionSubModule abilityExecutionSubModule, EventBus eventBus)
         {
+            _eventBus = eventBus;
             _inputService = inputService;
             _abilityExecutionSubModule = abilityExecutionSubModule;
         }
@@ -79,11 +86,17 @@ namespace Game.Battle.TurnControllers
                 _activeTeam[_targetIndex].GetSystem<PawnSystem>().Pawn.Deselect();
                 _targetIndex = Mathf.Clamp(_targetIndex + 1, 0, _activeTeam.Count - 1);
                 _activeTeam[_targetIndex].GetSystem<PawnSystem>().Pawn.Select();
+                OnTargetChanged(_activeTeam[_targetIndex].GetSystem<PawnSystem>().Pawn);
             }
             else
             {
                 _selectedAbilityIndex = Mathf.Clamp(_selectedAbilityIndex + 1, 0, _unitAbilities.Count - 1);
             }
+        }
+
+        private void OnTargetChanged(UnitPawn target)
+        {
+            _eventBus.Fire(new OnTargetChangedEvent(target, UnitModel.GetSystem<PawnSystem>().Pawn));
         }
 
         private void OnSelectPreviousPerformed(InputAction.CallbackContext context)
@@ -97,6 +110,7 @@ namespace Game.Battle.TurnControllers
                 _activeTeam[_targetIndex].GetSystem<PawnSystem>().Pawn.Deselect();
                 _targetIndex = Mathf.Clamp(_targetIndex - 1, 0, _activeTeam.Count - 1);
                 _activeTeam[_targetIndex].GetSystem<PawnSystem>().Pawn.Select();
+                OnTargetChanged(_activeTeam[_targetIndex].GetSystem<PawnSystem>().Pawn);
             }
             else
             {
@@ -134,6 +148,7 @@ namespace Game.Battle.TurnControllers
                 }
                 _targetIndex = _activeTeam.Count / 2;
                 _activeTeam[_targetIndex].GetSystem<PawnSystem>().Pawn.Select();
+                OnTargetChanged(_activeTeam[_targetIndex].GetSystem<PawnSystem>().Pawn);
                 _isSelectionStage = true;
             }
         }

@@ -13,6 +13,11 @@ namespace Game.Battle
         [SerializeField] private float _distanceBetweenTeams;
         [SerializeField] private float _distanceBetweenCharacters;
 
+        [SerializeField] public CinemachineVirtualCamera _targetCamera;
+
+        [SerializeField] public CinemachineTargetGroup _targetGroup;
+
+
         public void SetTeam(TeamModel teamModel)
         {
             Vector3 initialPosition = teamModel.Team == Team.Player

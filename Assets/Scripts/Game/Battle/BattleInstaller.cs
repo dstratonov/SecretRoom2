@@ -1,4 +1,5 @@
-﻿using Game.Battle.Factories;
+﻿using Cinemachine;
+using Game.Battle.Factories;
 using Game.Battle.SubModules;
 using Game.Battle.SubModules.AbilityExecution;
 using Game.Battle.SubModules.BattleCineMachine;
@@ -12,7 +13,6 @@ namespace Game.Battle
     {
         [SerializeField] private BattleField _battleField;
         [SerializeField] private BattleInitializer _battleInitializer;
-
         public override void InstallBindings()
         {
             Container.BindInstance(_battleField);
