@@ -69,4 +69,4 @@ MonoBehaviour:
   id: Ability_Id_0
   animTrigger: attack0
   energyCost: 2
-  selection: 0
+  selection: 1

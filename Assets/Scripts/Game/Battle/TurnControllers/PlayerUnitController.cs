@@ -2,7 +2,9 @@
 using Game.Battle.Abilities;
 using Game.Battle.Models;
 using Game.Battle.SubModules.AbilityExecution;
+using Game.Battle.Units;
 using Game.Battle.Units.Systems.Abilities;
+using Game.Battle.Units.Systems.Pawn;
 using Game.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,6 +20,13 @@ namespace Game.Battle.TurnControllers
         private IReadOnlyList<string> _unitAbilities;
 
         private InputActions.BattleActions BattleActions => _inputService.BattleActions;
+        
+        private bool _isSelectionStage = false;
+        private int _targetIndex;
+        private AbilityModel _selectedAbility;
+
+        private IReadOnlyList<BattleUnitModel> _activeTeam;
+        private AbilitySystem _abilitySystem;
 
         public PlayerUnitController(InputService inputService, AbilityExecutionSubModule abilityExecutionSubModule)
         {
@@ -35,18 +44,17 @@ namespace Game.Battle.TurnControllers
             BattleActions.SelectPrevious.performed += OnSelectPreviousPerformed;
             BattleActions.PerformAbility.performed += OnAbilityPerformed;
 
-            var abilitySystem = UnitModel.GetSystem<AbilitySystem>();
+            _abilitySystem = UnitModel.GetSystem<AbilitySystem>();
 
-            _hasAbilities = abilitySystem.Count() != 0;
+            _hasAbilities = _abilitySystem.Count() != 0;
 
             if (!_hasAbilities)
             {
                 return;
             }
 
-            _unitAbilities = abilitySystem.AbilityIds;
-
-            SelectAbility();
+            _unitAbilities = _abilitySystem.AbilityIds;
+            _selectedAbilityIndex = _abilitySystem.Count() / 2;
         }
 
         protected override void OnDeactivate()
@@ -66,10 +74,16 @@ namespace Game.Battle.TurnControllers
             {
                 return;
             }
-
-            _selectedAbilityIndex = Mathf.Clamp(_selectedAbilityIndex + 1, 0, _unitAbilities.Count - 1);
-
-            SelectAbility();
+            if (_isSelectionStage)
+            {
+                _activeTeam[_targetIndex].GetSystem<PawnSystem>().Pawn.Deselect();
+                _targetIndex = Mathf.Clamp(_targetIndex + 1, 0, _activeTeam.Count - 1);
+                _activeTeam[_targetIndex].GetSystem<PawnSystem>().Pawn.Select();
+            }
+            else
+            {
+                _selectedAbilityIndex = Mathf.Clamp(_selectedAbilityIndex + 1, 0, _unitAbilities.Count - 1);
+            }
         }
 
         private void OnSelectPreviousPerformed(InputAction.CallbackContext context)
@@ -78,15 +92,16 @@ namespace Game.Battle.TurnControllers
             {
                 return;
             }
-
-            _selectedAbilityIndex = Mathf.Clamp(_selectedAbilityIndex - 1, 0, _unitAbilities.Count - 1);
-
-            SelectAbility();
-        }
-
-        private void SelectAbility()
-        {
-            
+            if (_isSelectionStage)
+            {
+                _activeTeam[_targetIndex].GetSystem<PawnSystem>().Pawn.Deselect();
+                _targetIndex = Mathf.Clamp(_targetIndex - 1, 0, _activeTeam.Count - 1);
+                _activeTeam[_targetIndex].GetSystem<PawnSystem>().Pawn.Select();
+            }
+            else
+            {
+                _selectedAbilityIndex = Mathf.Clamp(_selectedAbilityIndex - 1, 0, _unitAbilities.Count - 1);
+            }
         }
 
         private void FinishTurnWithArgs(AbilityInvokeArgs args)
@@ -97,9 +112,30 @@ namespace Game.Battle.TurnControllers
 
         private void OnAbilityPerformed(InputAction.CallbackContext context)
         {
-            BattleActions.Disable();
-            _abilityExecutionSubModule.OnCastEnded += FinishTurnWithArgs;
-            _abilityExecutionSubModule.CastAbility(_unitAbilities[_selectedAbilityIndex], UnitModel, UnitModel);
+            if (_isSelectionStage)
+            {
+                _isSelectionStage = false;
+                _activeTeam[_targetIndex].GetSystem<PawnSystem>().Pawn.Deselect();
+                BattleActions.Disable();
+                _abilityExecutionSubModule.OnCastEnded += FinishTurnWithArgs;
+                _abilityExecutionSubModule.CastAbility(_unitAbilities[_selectedAbilityIndex], UnitModel, _activeTeam[_targetIndex]);
+            }
+            else
+            {
+                _selectedAbility = _abilitySystem.GetAbilityModel(_unitAbilities[_selectedAbilityIndex]);
+                switch(_selectedAbility._data.selection)
+                {
+                    case AbilitySelection.Enemy:
+                        _activeTeam = battle.Model.EnemyTeam.GetUnits();
+                        break;
+                    case AbilitySelection.Ally:
+                        _activeTeam = battle.Model.PlayerTeam.GetUnits();
+                        break;
+                }
+                _targetIndex = _activeTeam.Count / 2;
+                _activeTeam[_targetIndex].GetSystem<PawnSystem>().Pawn.Select();
+                _isSelectionStage = true;
+            }
         }
     }
 }
