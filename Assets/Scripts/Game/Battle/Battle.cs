@@ -1,4 +1,5 @@
 ﻿using Common.Events;
+using Cysharp.Threading.Tasks;
 using Game.Battle.Configs;
 using Game.Battle.Events;
 using Game.Battle.Models;
@@ -11,9 +12,9 @@ namespace Game.Battle
     public class Battle
     {
         private readonly BattleBuilder _battleBuilder;
-        private readonly TurnController _turnController;
         private readonly EventBus _eventBus;
         private readonly BattleSubModulesHolder _subModulesHolder;
+        private readonly TurnController _turnController;
 
         public BattleModel Model { get; private set; }
 
@@ -25,29 +26,36 @@ namespace Game.Battle
             _eventBus = eventBus;
             _subModulesHolder = subModulesHolder;
         }
-        
+
         public void Initialize(BattleConfig battleConfig)
         {
             Model = _battleBuilder.Build(battleConfig);
-            
+
             _turnController.Initialize(Model);
         }
 
         public void Start()
         {
             _eventBus.Fire(new BattleStartedEvent());
-            
-            foreach (IBattleStartedSubModule battleStartedSubModule in _subModulesHolder.BattleStartedSubModules)
+
+            StartBattle().Forget();
+        }
+
+        private void OnTeamTurnFinished(Team team)
+        {
+            foreach (ITeamTurnFinishedSubModule teamTurnFinishedSubModule in _subModulesHolder
+                         .TeamTurnFinishedSubModules)
             {
-                battleStartedSubModule.OnBattleStarted(Model);
+                teamTurnFinishedSubModule.OnTeamTurnFinished(team);
             }
-            
-            _turnController.TeamTurnStarted += OnTeamTurnStarted;
-            _turnController.TeamTurnFinished += OnTeamTurnFinished;
-            _turnController.UnitTurnStarted += OnUnitTurnStarted;
-            _turnController.UnitTurnFinished += OnUnitTurnFinished;
-            
-            _turnController.PerformTeamTurn();
+        }
+
+        private void OnTeamTurnStarted(Team team)
+        {
+            foreach (ITeamTurnStartedSubModule teamTurnStartedSubModule in _subModulesHolder.TeamTurnStartedSubModules)
+            {
+                teamTurnStartedSubModule.OnTeamTurnStarted(team);
+            }
         }
 
         private void OnUnitTurnFinished(BattleUnitModel unit)
@@ -66,20 +74,19 @@ namespace Game.Battle
             }
         }
 
-        private void OnTeamTurnFinished(Team team)
+        private async UniTaskVoid StartBattle()
         {
-            foreach (ITeamTurnFinishedSubModule teamTurnFinishedSubModule in _subModulesHolder.TeamTurnFinishedSubModules)
+            foreach (IBattleStartedSubModule battleStartedSubModule in _subModulesHolder.BattleStartedSubModules)
             {
-                teamTurnFinishedSubModule.OnTeamTurnFinished(team);
+                await battleStartedSubModule.OnBattleStarted(Model);
             }
-        }
 
-        private void OnTeamTurnStarted(Team team)
-        {
-            foreach (ITeamTurnStartedSubModule teamTurnStartedSubModule in _subModulesHolder.TeamTurnStartedSubModules)
-            {
-                teamTurnStartedSubModule.OnTeamTurnStarted(team);
-            }
+            _turnController.TeamTurnStarted += OnTeamTurnStarted;
+            _turnController.TeamTurnFinished += OnTeamTurnFinished;
+            _turnController.UnitTurnStarted += OnUnitTurnStarted;
+            _turnController.UnitTurnFinished += OnUnitTurnFinished;
+
+            _turnController.PerformTeamTurn();
         }
     }
 }

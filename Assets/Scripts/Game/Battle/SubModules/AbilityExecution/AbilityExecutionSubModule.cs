@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using Common.Events;
+﻿using Cysharp.Threading.Tasks;
 using Game.Battle.Abilities;
-using Game.Battle.Abilities.Mechanics;
-using Game.Battle.Abilities.Mechanics.Core;
-using Game.Battle.Abilities.Mechanics.Data;
 using Game.Battle.Models;
 using Game.Battle.Units;
 using Game.Battle.Units.Systems.Abilities;
@@ -14,9 +10,8 @@ namespace Game.Battle.SubModules.AbilityExecution
     public class AbilityExecutionSubModule : IBattleStartedSubModule
     {
         private readonly IInstantiator _instantiator;
-        
-        private AbilityExecutor _animExecutor;
 
+        private AbilityExecutor _animExecutor;
         private BattleModel _model;
 
         public AbilityExecutionSubModule(IInstantiator instantiator)
@@ -45,19 +40,17 @@ namespace Game.Battle.SubModules.AbilityExecution
             // caster.GetSystem<PawnSystem>().Pawn.AnimationFinished +=
 
             var executor = _instantiator.Instantiate<AbilityExecutor>();
-            
+
             executor.SetExecutionData(ability, caster, target, _model);
 
             return executor;
         }
 
-        public void OnBattleStarted(BattleModel model)
+        public UniTask OnBattleStarted(BattleModel model)
         {
             _model = model;
+            
+            return UniTask.CompletedTask;
         }
-
-       
-
-        
     }
 }

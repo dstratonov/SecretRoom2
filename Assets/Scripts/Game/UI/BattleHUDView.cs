@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common.UI;
+using Game.Battle.Abilities;
 using Game.Battle.Models;
 using Game.Battle.Units;
 using UnityEngine;
@@ -32,6 +33,17 @@ namespace Game.UI
             {
                 _playerSlots[i].sprite = playerUnits[i].GetViewData().unitIcon;
             }
+        }
+
+        public void ActivateSkillChooser(IReadOnlyList<AbilityModel> abilities)
+        {
+            _skillChooser.gameObject.SetActive(true);
+            _skillChooser.Init(abilities);
+        }
+
+        public void DeactivateSkillChooser()
+        {
+            _skillChooser.gameObject.SetActive(false);
         }
     }
 }

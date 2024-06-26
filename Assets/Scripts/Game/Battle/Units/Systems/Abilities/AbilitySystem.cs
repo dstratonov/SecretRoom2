@@ -15,15 +15,18 @@ namespace Game.Battle.Units.Systems.Abilities
             _abilities.Add(abilityModel.Id, abilityModel);
         }
 
-        public void RemoveAbility(string id)
-        {
-            _abilities.Remove(id);
-        }
-
         public int Count() =>
             _abilities.Count;
 
         public AbilityModel GetAbilityModel(string id) =>
             _abilities.GetValueOrDefault(id);
+
+        public IReadOnlyList<AbilityModel> GetAbilityModels() =>
+            _abilities.Values.ToList();
+
+        public void RemoveAbility(string id)
+        {
+            _abilities.Remove(id);
+        }
     }
 }

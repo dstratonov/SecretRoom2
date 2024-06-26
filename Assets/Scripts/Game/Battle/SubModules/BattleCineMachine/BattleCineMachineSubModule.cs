@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Cinemachine;
 using Common.Events;
+using Cysharp.Threading.Tasks;
 using Game.Battle.Events;
 using Game.Battle.Models;
 using Game.Battle.Units;
@@ -23,7 +24,7 @@ namespace Game.Battle.SubModules.BattleCineMachine
             _eventBus = eventBus;
         }
 
-        public void OnBattleStarted(BattleModel model)
+        public UniTask OnBattleStarted(BattleModel model)
         {
             _eventBus.Subscribe<TargetChangedEvent>(OnTargetSelected);
 
@@ -42,6 +43,8 @@ namespace Game.Battle.SubModules.BattleCineMachine
 
                 _cameras.Add(unit, camera);
             }
+            
+            return UniTask.CompletedTask;
         }
 
         public void OnUnitTurnStarted(BattleUnitModel unit)

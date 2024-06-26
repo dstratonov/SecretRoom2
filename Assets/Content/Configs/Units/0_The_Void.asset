@@ -15,11 +15,11 @@ MonoBehaviour:
   id: 0_The_Void
   viewData:
     unitIcon: {fileID: 21300000, guid: 3fb21664a70244cf890d5e741bf119b5, type: 3}
-    unitPawn: {fileID: 3621902414540011647, guid: 0671ef327303f4140a74842d4e31bd43,
-      type: 3}
+    unitPawn: {fileID: 3621902414540011647, guid: 0671ef327303f4140a74842d4e31bd43, type: 3}
   battleData:
     abilities:
     - Ability_Id_0
+    - Ability_Id_1
     rawStats:
     - stat: 0
       value: 10
