@@ -26,11 +26,21 @@ namespace Game.UI
         public void Init(IReadOnlyList<AbilityModel> abilityModels)
         {
             print("INIT SKILL_CHOOSER");
+
+            for (var i = 0; i < Math.Max(abilityModels.Count - skills.Count, 0); i++){
+                skills.Add(CreateNewButton(Vector2.zero, "initial"));
+            }
+
+            for (var i = 0; i < Math.Max(skills.Count - abilityModels.Count, 0); i++){
+                skills[(skills.Count - 1) - i].gameObject.SetActive(false);
+            }
+
             Vector2 buttonPos = Vector2.zero;
             
-            foreach (AbilityModel ability in abilityModels)
+            for (var i = 0; i < abilityModels.Count; i++)
             {
-                skills.Add(CreateNewButton(buttonPos, ability.Data.id));
+                skills[i].gameObject.SetActive(true);
+                UpdateButton(buttonPos, abilityModels[i].Data.id, i);
                 buttonPos.y -= distanceBetween;
             }
 
@@ -54,6 +64,12 @@ namespace Game.UI
             newButton.SetPosition(buttonPosition);
             newButton.SetText(buttonText);
             return newButton;
+        }
+
+        private void UpdateButton(Vector2 buttonPosition, string buttonText, int id)
+        {
+            skills[id].SetPosition(buttonPosition);
+            skills[id].SetText(buttonText);
         }
 
         private void UpdateOffset()
