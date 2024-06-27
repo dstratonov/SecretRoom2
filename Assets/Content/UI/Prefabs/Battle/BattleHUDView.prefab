@@ -519,8 +519,7 @@ MonoBehaviour:
   _content: {fileID: 2842479635154950461}
   distanceBetween: 50
   skillItem: {fileID: 153588570061144911, guid: ab07fe78cbd4f469fb204fec8a0bd6aa, type: 3}
-  startPosition: {x: 100, y: 100}
-  unselectedOffsetModifier: 1
+  unselectedOffsetModifier: -15
   unselectedSizeModifier: 1
 --- !u!1 &8710569962000808196
 GameObject:

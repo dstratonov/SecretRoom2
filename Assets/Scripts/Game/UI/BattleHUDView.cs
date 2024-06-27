@@ -41,6 +41,11 @@ namespace Game.UI
             _skillChooser.Init(abilities);
         }
 
+        public void OnAbilityChangedEvent(int newAbilityId)
+        {
+            _skillChooser.AbilitySelected(newAbilityId);
+        }
+
         public void DeactivateSkillChooser()
         {
             _skillChooser.gameObject.SetActive(false);

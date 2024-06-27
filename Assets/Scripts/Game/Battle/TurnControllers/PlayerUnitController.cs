@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common.Events;
+using Common.Loggers;
 using Cysharp.Threading.Tasks;
 using Game.Battle.Abilities;
 using Game.Battle.Events;
@@ -42,6 +43,8 @@ namespace Game.Battle.TurnControllers
         {
             base.OnActivate();
 
+            this.Log("ON ACTIVATE PLAYER UNIT CONTROLLER");
+
             BattleActions.Enable();
 
             BattleActions.SelectNext.performed += OnSelectNextPerformed;
@@ -59,6 +62,7 @@ namespace Game.Battle.TurnControllers
 
             _unitAbilities = _abilitySystem.AbilityIds;
             _selectedAbilityIndex = _abilitySystem.Count() / 2;
+            _eventBus.Fire(new OnAbilityChangedEvent(_selectedAbilityIndex));
         }
 
         protected override void OnDeactivate()
@@ -121,6 +125,7 @@ namespace Game.Battle.TurnControllers
             else
             {
                 _selectedAbilityIndex = Mathf.Clamp(_selectedAbilityIndex + 1, 0, _unitAbilities.Count - 1);
+                _eventBus.Fire(new OnAbilityChangedEvent(_selectedAbilityIndex));
             }
         }
 
@@ -141,6 +146,7 @@ namespace Game.Battle.TurnControllers
             else
             {
                 _selectedAbilityIndex = Mathf.Clamp(_selectedAbilityIndex - 1, 0, _unitAbilities.Count - 1);
+                _eventBus.Fire(new OnAbilityChangedEvent(_selectedAbilityIndex));
             }
         }
 

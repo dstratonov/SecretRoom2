@@ -26,6 +26,7 @@ namespace Game.Battle.SubModules.HUD
         public async UniTask OnBattleStarted(BattleModel model)
         {
             _eventBus.Subscribe<AbilityCastStartEvent>(OnAbilityStartCasted);
+            _eventBus.Subscribe<OnAbilityChangedEvent>(OnAbilityChanged);
 
             await CreateBattleHUD(model.PlayerTeam);
         }
@@ -36,6 +37,11 @@ namespace Game.Battle.SubModules.HUD
             {
                 playerTeam = playerTeam,
             });
+        }
+
+        private void OnAbilityChanged(OnAbilityChangedEvent onAbilityChangedEvent)
+        {
+            _battleHUD.OnAbilityChangedEvent(onAbilityChangedEvent.abilityId);
         }
         
         private void OnAbilityStartCasted()

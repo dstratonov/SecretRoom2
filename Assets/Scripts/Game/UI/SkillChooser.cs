@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Common.Events;
 using Game.Battle.Abilities;
+using Game.Battle.Events;
 using UnityEngine;
 
 namespace Game.UI
@@ -13,7 +15,7 @@ namespace Game.UI
 
         public SkillWrapper skillItem;
 
-        public float unselectedOffsetModifier;
+        public float unselectedOffsetModifier = -20.0f;
         public float unselectedSizeModifier;
 
         private int _selectedId;
@@ -23,6 +25,7 @@ namespace Game.UI
 
         public void Init(IReadOnlyList<AbilityModel> abilityModels)
         {
+            print("INIT SKILL_CHOOSER");
             Vector2 buttonPos = Vector2.zero;
             
             foreach (AbilityModel ability in abilityModels)
@@ -34,20 +37,11 @@ namespace Game.UI
             UpdateOffset();
         }
 
-        private void Update()
+        public void AbilitySelected(int abilityId)
         {
-            // if (UnityEngine.Input.GetKeyDown(KeyCode.Z))
-            // {
-            //     _selectedId--;
-            // }
-            //
-            // if (UnityEngine.Input.GetKeyDown(KeyCode.X))
-            // {
-            //     _selectedId++;
-            // }
-
-            _selectedId = Math.Min(skills.Count - 1, _selectedId);
-            _selectedId = Math.Max(0, _selectedId);
+            print(abilityId);
+            print(skills.Count);
+            _selectedId = abilityId;
             
             UpdateOffset();
             UpdateSizes();
@@ -89,5 +83,6 @@ namespace Game.UI
                 skills[i].SetSize(coef);
             }
         }
+        
     }
 }

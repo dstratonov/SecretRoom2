@@ -74,11 +74,11 @@ namespace Game.Battle.TurnControllers
 
             _currentUnitController.SetUnit(_currentUnit);
             _currentUnitController.PrepareForTurn();
+            
+            UnitTurnStarted?.Invoke(_currentUnit);
 
             _currentUnitController.TurnFinished += OnUnitTurnFinished;
             _currentUnitController.Activate();
-
-            UnitTurnStarted?.Invoke(_currentUnit);
         }
     }
 }
