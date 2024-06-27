@@ -15,8 +15,7 @@ MonoBehaviour:
   id: 3_Hungry_Flowey
   viewData:
     unitIcon: {fileID: 21300000, guid: ab36914be819741c8a700018bab718a2, type: 3}
-    unitPawn: {fileID: 8256104074702198886, guid: ec37455c692ff5c4a8591bfc7c79f459,
-      type: 3}
+    unitPawn: {fileID: 8256104074702198886, guid: ec37455c692ff5c4a8591bfc7c79f459, type: 3}
   battleData:
     abilities:
     - Ability_Id_1
@@ -30,7 +29,7 @@ MonoBehaviour:
     - stat: 3
       value: 0
     - stat: 4
-      value: 5
+      value: 8
     - stat: 5
       value: 2
     statMultipliers:
