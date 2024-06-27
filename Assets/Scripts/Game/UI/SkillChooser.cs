@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Common.Events;
 using Game.Battle.Abilities;
-using Game.Battle.Events;
 using UnityEngine;
 
 namespace Game.UI
@@ -25,25 +23,32 @@ namespace Game.UI
 
         public void Init(IReadOnlyList<AbilityModel> abilityModels)
         {
-            print("INIT SKILL_CHOOSER");
-
-            for (var i = 0; i < Math.Max(abilityModels.Count - skills.Count, 0); i++){
-                skills.Add(CreateNewButton(Vector2.zero, "initial"));
-            }
-
-            for (var i = 0; i < Math.Max(skills.Count - abilityModels.Count, 0); i++){
-                skills[(skills.Count - 1) - i].gameObject.SetActive(false);
-            }
-
             Vector2 buttonPos = Vector2.zero;
             
             for (var i = 0; i < abilityModels.Count; i++)
             {
-                skills[i].gameObject.SetActive(true);
+                SkillWrapper skillWrapper;
+                
+                if (skills.Count >= i)
+                {
+                    skillWrapper = CreateNewButton(Vector2.zero, string.Empty);
+                    skills.Add(skillWrapper);
+                }
+                else
+                {
+                    skillWrapper = skills[i];
+                    skillWrapper.gameObject.SetActive(true);
+                }
+                
                 UpdateButton(buttonPos, abilityModels[i].Data.id, i);
                 buttonPos.y -= distanceBetween;
             }
 
+            for (int i = abilityModels.Count; i < skills.Count; i++)
+            {
+                skills[i].gameObject.SetActive(false);
+            }
+            
             UpdateOffset();
         }
 
