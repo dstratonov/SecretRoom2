@@ -39,8 +39,6 @@ namespace Game.Battle
             foreach (StatModel statModel in unitConfig.battleData.statMultipliers)
             {
                 var value = new ReactiveValue(Mathf.FloorToInt(statModel.value * playerStats[statModel.stat].Max));
-                value.Set(value.Max);
-                
                 stats.Add(statModel.stat, value);
             }
 
@@ -65,7 +63,7 @@ namespace Game.Battle
             {
                 var value = new ReactiveValue(Mathf.FloorToInt(energyRegenStat.value));
                 value.Set(value.Max);
-                
+
                 stats.Add(Stat.ENR, value);
             }
 
@@ -82,14 +80,38 @@ namespace Game.Battle
         {
             var teamModel = new TeamModel(Team.Enemy);
 
+            Dictionary<Stat, ReactiveValue> unitStats = new();
+
             foreach (UnitConfig unitConfig in configs)
             {
-                teamModel.AddUnit(_unitFactory.Create(unitConfig));
+                unitStats.Clear();
+
+                BattleUnitModel unit = CreateEnemyUnit(unitConfig, unitStats);
+
+                teamModel.AddUnit(unit);
             }
 
             _battleField.SetTeam(teamModel);
 
             return teamModel;
+        }
+
+        private BattleUnitModel CreateEnemyUnit(UnitConfig unitConfig, Dictionary<Stat, ReactiveValue> unitStats)
+        {
+            foreach (Stat stat in StatsUtils.GetPossibleEnemyStats())
+            {
+                StatModel statValue = unitConfig.battleData.rawStats.Find(x => x.stat == stat);
+
+                var reactiveStat = new ReactiveValue(Mathf.FloorToInt(statValue.value));
+                reactiveStat.Maximize();
+                unitStats.Add(stat, reactiveStat);
+            }
+
+            return _unitFactory.Create(
+                unitConfig.id,
+                unitConfig.viewData,
+                unitStats,
+                unitConfig.battleData.abilities.ToArray());
         }
 
         private TeamModel CreatePlayerTeam(PlayerModel playerModel, IReadOnlyList<UnitConfig> configs)

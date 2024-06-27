@@ -54,8 +54,6 @@ namespace Game.UI
 
         public void AbilitySelected(int abilityId)
         {
-            print(abilityId);
-            print(skills.Count);
             _selectedId = abilityId;
             
             UpdateOffset();

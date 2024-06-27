@@ -68,6 +68,9 @@ namespace Common.Reactive
         public void RemoveMax(int value, bool fixCurrent = true) =>
             UpdateMax(Max - value, fixCurrent);
 
+        public void Maximize() =>
+            Set(Max);
+
         public void UpdateMax(int newMaxValue, bool fixCurrent = true)
         {
             int diff = newMaxValue - Max;
