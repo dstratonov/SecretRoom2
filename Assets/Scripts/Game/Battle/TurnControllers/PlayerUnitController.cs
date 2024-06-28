@@ -61,7 +61,7 @@ namespace Game.Battle.TurnControllers
             }
 
             _unitAbilities = _abilitySystem.AbilityIds;
-            _selectedAbilityIndex = _abilitySystem.Count() / 2;
+            _selectedAbilityIndex = 0;
             _eventBus.Fire(new OnAbilityChangedEvent(_selectedAbilityIndex));
         }
 

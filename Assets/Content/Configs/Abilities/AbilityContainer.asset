@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _abilitiesInfo:
   - battleConfig: {fileID: 11400000, guid: 5cba692eed67a0b4c952b1490c8005fa, type: 2}
-    id: 0_FireBall_Ability
+    id: e001_sk_1
   - battleConfig: {fileID: 11400000, guid: 80240c175ccac5f458e9ac48a5af1150, type: 2}
     id: 1_Healing_Ability

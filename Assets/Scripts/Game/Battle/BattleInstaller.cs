@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using Game.Battle.Damage;
 using Game.Battle.Factories;
 using Game.Battle.SubModules;
 using Game.Battle.SubModules.AbilityExecution;
@@ -14,6 +15,7 @@ namespace Game.Battle
     {
         [SerializeField] private BattleField _battleField;
         [SerializeField] private BattleInitializer _battleInitializer;
+        
         public override void InstallBindings()
         {
             Container.BindInstance(_battleField);
@@ -23,6 +25,7 @@ namespace Game.Battle
             Container.Bind<Battle>().AsSingle();
             Container.Bind<BattleBuilder>().AsSingle();
             Container.Bind<BattleSubModulesHolder>().AsSingle();
+            Container.Bind<DamageCalculationService>().AsSingle();
 
             TurnControllerInstaller.Install(Container);
 

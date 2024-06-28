@@ -21,7 +21,7 @@ namespace Game.Battle.Units.Systems.Stats
         }
 
         public float GetStatValue(Stat stat) =>
-            GetStat(stat).Current;
+            GetStat(stat).Max;
 
         public override string ToString()
         {
