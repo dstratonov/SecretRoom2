@@ -18,8 +18,8 @@ MonoBehaviour:
     unitPawn: {fileID: 3621902414540011647, guid: 0671ef327303f4140a74842d4e31bd43, type: 3}
   battleData:
     abilities:
-    - Ability_Id_0
-    - Ability_Id_1
+    - 0_FireBall_Ability
+    - 1_Healing_Ability
     rawStats:
     - stat: 0
       value: 10

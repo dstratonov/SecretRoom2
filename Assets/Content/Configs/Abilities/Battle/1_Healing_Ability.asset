@@ -57,7 +57,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  id: Ability_Id_1
+  id: 1_Healing_Ability
   animTrigger: attack1
   energyCost: 5
   selection: 0
