@@ -68,20 +68,16 @@ namespace Game.Battle.SubModules.BattleCineMachine
         {
             ChangeCamera(_battleField.TargetCamera);
 
-            _battleField.TargetGroup.m_Targets = new CinemachineTargetGroup.Target[2];
-
-            CinemachineTargetGroup.Target targetCaster;
-            targetCaster.target = args.caster.transform;
-            targetCaster.weight = 1;
-            targetCaster.radius = 0;
+            _battleField.TargetGroup.m_Targets = new CinemachineTargetGroup.Target[1];
 
             CinemachineTargetGroup.Target targetTarget;
             targetTarget.target = args.target.transform;
             targetTarget.weight = 1;
             targetTarget.radius = 0;
 
-            _battleField.TargetGroup.m_Targets.SetValue(targetCaster, 0);
-            _battleField.TargetGroup.m_Targets.SetValue(targetTarget, 1);
+            _battleField.TargetGroup.m_Targets.SetValue(targetTarget, 0);
+
+            _battleField.TargetCamera.LookAt = _battleField.TargetGroup.transform;
         }
     }
 }
